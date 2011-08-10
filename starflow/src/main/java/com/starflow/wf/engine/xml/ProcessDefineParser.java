@@ -121,23 +121,6 @@ public class ProcessDefineParser {
 				activityXml.setStartStrategybyAppAction(NodeUtil.getNodeStringValue(actEl, StarFlowNames.ACT_CHILD_STARTSTRATEGYBYAPPACTION));
 				activityXml.setEvents(NodeUtil.getTriggerEvents(actEl));
 				activityXml.setProperties(NodeUtil.getExtProperties(actEl));
-			} else if(Constants.ACT_TYPE_WEBSERVICE.equalsIgnoreCase(type)) {//Web Service
-				activityXml.setFinishType(NodeUtil.getNodeStringValue(actEl, StarFlowNames.ACT_AUTO_FINSISH_TYPE));
-				activityXml.setInvokePattern(NodeUtil.getNodeStringValue(actEl, StarFlowNames.ACT_AUTO_INVOKE_PATTERN));
-				activityXml.setTransactionType(NodeUtil.getNodeStringValue(actEl, StarFlowNames.ACT_AUTO_TRANSACTION_TYPE));
-				activityXml.setExceptionStrategy(NodeUtil.getNodeStringValue(actEl, StarFlowNames.ACT_EXCEPTION_STRATEGY));
-				activityXml.setExceptionAction(NodeUtil.getNodeStringValue(actEl, StarFlowNames.ACT_EXCEPTION_ACTION));
-				activityXml.setJoinMode(NodeUtil.getNodeStringValue(actEl, StarFlowNames.ACT_CHILD_JOIN));
-				activityXml.setSplitMode(NodeUtil.getNodeStringValue(actEl, StarFlowNames.ACT_CHILD_SPLIT));
-				activityXml.setActivateRuleType(NodeUtil.getNodeStringValue(actEl, StarFlowNames.ACT_CHILD_ACTIVATE_RULE_TYPE));
-				activityXml.setStartStrategybyAppAction(NodeUtil.getNodeStringValue(actEl, StarFlowNames.ACT_CHILD_STARTSTRATEGYBYAPPACTION));
-				
-				activityXml.setLocationURL(NodeUtil.getNodeStringValue(actEl, StarFlowNames.ACT_CHILD_WS_LOCATIONURL));
-				activityXml.setOperation(NodeUtil.getNodeStringValue(actEl, StarFlowNames.ACT_CHILD_WS_OPERATION));
-				activityXml.setWsdlParameters(NodeUtil.getWSDLParameters(actEl));
-				activityXml.setSoapParameters(NodeUtil.getSOAPParameters(actEl));
-				activityXml.setEvents(NodeUtil.getTriggerEvents(actEl));
-				activityXml.setProperties(NodeUtil.getExtProperties(actEl));
 			} else if(Constants.ACT_TYPE_SUBPROCESS.equalsIgnoreCase(type)) {//子流程
 				activityXml.setSubProcess(NodeUtil.getNodeStringValue(actEl, StarFlowNames.ACT_CHILD_SUBPROCESS));
 				activityXml.setSpInvokePattern(NodeUtil.getNodeStringValue(actEl, StarFlowNames.ACT_CHILD_SP_INVOKE_PATTERN));

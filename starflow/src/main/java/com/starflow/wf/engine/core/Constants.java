@@ -87,11 +87,6 @@ public interface Constants {
 	public static String ACT_TYPE_TOOLAPP = "toolApp";
 	
 	/**
-	 * webservice 环节
-	 */
-	public static String ACT_TYPE_WEBSERVICE = "webservice";
-	
-	/**
 	 * 子流程环节
 	 */
 	public static String ACT_TYPE_SUBPROCESS = "subProcess";

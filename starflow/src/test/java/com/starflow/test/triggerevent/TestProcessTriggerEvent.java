@@ -1,10 +1,12 @@
 package com.starflow.test.triggerevent;
 
+import org.junit.Ignore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.starflow.wf.service.spi.IProcessTriggerEvent;
 
+@Ignore
 public class TestProcessTriggerEvent implements IProcessTriggerEvent {
 	private static Logger logger = LoggerFactory.getLogger(TestProcessTriggerEvent.class);
 

@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,7 +93,7 @@ public class ProcessDefineService implements IProcessDefineService {
 					// TODO Auto-generated method stub
 					return 0;
 				}
-			}));
+			}, "UTF-8"));
 			
 			StringBuilder sb = new StringBuilder();
 			
@@ -113,6 +114,8 @@ public class ProcessDefineService implements IProcessDefineService {
 			deployProcessXML(sb.toString());
 		} catch (FileNotFoundException e1) {
 			throw new ProcessEngineException("流程文件没有查找到", e1);
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
 		}
 	}
 	

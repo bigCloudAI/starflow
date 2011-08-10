@@ -3,17 +3,11 @@ package com.starflow.test;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.starflow.test.util.TestUtil;
-import com.starflow.wf.engine.ProcessEngine;
-import com.starflow.wf.engine.ProcessEngineBuilder;
+import org.junit.Test;
+
 import com.starflow.wf.engine.core.RelaDataManagerBuilder;
 import com.starflow.wf.engine.core.data.RelaDataManager;
 import com.starflow.wf.engine.model.ProcessInstance;
-import com.starflow.wf.engine.service.IProcessDefineService;
-import com.starflow.wf.engine.service.IProcessInstanceService;
-import com.starflow.wf.engine.service.IWorkItemService;
-import com.starflow.wf.service.filter.LoggerProcessFilter;
-import com.starflow.wf.service.filter.TransCtrlFilter;
 
 /**
  * 流程开始环节进行分支，使用复杂表达式计算，来判断走哪条分支。
@@ -24,23 +18,12 @@ import com.starflow.wf.service.filter.TransCtrlFilter;
  * @author bsli123@gmail.com
  *
  */
-public class StartActSplitXpathExampleTest {
-	public static void main(String[] args) {
-		ProcessEngine processEngine = new ProcessEngineBuilder().buildProcessEngine();
-		IProcessDefineService procDefService = processEngine.getProcessDefineService();
-		IProcessInstanceService procInstService = processEngine.getProcessInstanceService();
-		IWorkItemService workItemService = processEngine.getWorkItemService();
-		
-		//清除测试数据
-		TestUtil.cleanData(processEngine.getApplicationContext());
-		
+public class StartActSplitXpathExampleTest extends AbstractFlowTest {
+	@Test
+	public void testFlow() {
 		//部署流程
 		procDefService.deployProcessFile("classpath:flow/StartActSplitXpathExample.xml");
 		
-		//添加filter
-		processEngine.addFilter(new LoggerProcessFilter());
-		processEngine.addFilter(new TransCtrlFilter());
-
 		long start = System.currentTimeMillis();
 		
 		//启动流程

@@ -84,12 +84,6 @@ public interface StarFlowNames {
 	public static String ACT_EXCEPTION_STRATEGY = "exceptionStrategy";
 	public static String ACT_EXCEPTION_ACTION = "exceptionAction";
 	
-	//webservice
-	public static String ACT_CHILD_WS_PARAMETER = "Parameters/parameter";
-	public static String ACT_CHILD_WS_LOCATIONURL = "locationURL";
-	public static String ACT_CHILD_WS_OPERATION = "operation";
-	public static String ACT_CHILD_WS_SOAPPARAMETER = "SOAPParameters/parameter";
-	
 	//扩展属性
 	public static String FLOW_EXT_PROPERTY = "ExtendNodes/extendNode";
 	

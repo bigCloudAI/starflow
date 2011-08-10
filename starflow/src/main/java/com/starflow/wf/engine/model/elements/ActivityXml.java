@@ -76,12 +76,6 @@ public class ActivityXml implements Serializable {
 	private String startStrategybyAppAction;
 	private String resetParticipant;
 	
-	//webservice环节属性
-	private String locationURL;
-	private String operation;
-	private List<WSDLParameter> wsdlParameters;
-	private List<SOAPParameter> soapParameters;
-	
 	//环节扩展属性
 	private Map<String, String> properties;
 	
@@ -318,30 +312,6 @@ public class ActivityXml implements Serializable {
 	}
 	public void setSpInvokePattern(String spInvokePattern) {
 		this.spInvokePattern = spInvokePattern;
-	}
-	public String getLocationURL() {
-		return locationURL;
-	}
-	public void setLocationURL(String locationURL) {
-		this.locationURL = locationURL;
-	}
-	public String getOperation() {
-		return operation;
-	}
-	public void setOperation(String operation) {
-		this.operation = operation;
-	}
-	public List<WSDLParameter> getWsdlParameters() {
-		return wsdlParameters;
-	}
-	public void setWsdlParameters(List<WSDLParameter> wsdlParameters) {
-		this.wsdlParameters = wsdlParameters;
-	}
-	public List<SOAPParameter> getSoapParameters() {
-		return soapParameters;
-	}
-	public void setSoapParameters(List<SOAPParameter> soapParameters) {
-		this.soapParameters = soapParameters;
 	}
 	public Map<String, String> getProperties() {
 		return properties;

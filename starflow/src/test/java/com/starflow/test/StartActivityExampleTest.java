@@ -16,15 +16,9 @@
 
 package com.starflow.test;
 
-import com.starflow.test.util.TestUtil;
-import com.starflow.wf.engine.ProcessEngine;
-import com.starflow.wf.engine.ProcessEngineBuilder;
+import org.junit.Test;
+
 import com.starflow.wf.engine.model.ProcessInstance;
-import com.starflow.wf.engine.service.IActivityInstService;
-import com.starflow.wf.engine.service.IProcessDefineService;
-import com.starflow.wf.engine.service.IProcessInstanceService;
-import com.starflow.wf.service.filter.LoggerProcessFilter;
-import com.starflow.wf.service.filter.TransCtrlFilter;
 
 /**
  * 串行流程模式，没有分支。
@@ -33,22 +27,11 @@ import com.starflow.wf.service.filter.TransCtrlFilter;
  * @author bsli123@gmail.com
  *
  */
-public class StartActivityExampleTest {
-	public static void main(String[] args) {
-		ProcessEngine processEngine = new ProcessEngineBuilder().buildProcessEngine();
-		IProcessDefineService procDefService = processEngine.getProcessDefineService();
-		IProcessInstanceService procInstService = processEngine.getProcessInstanceService();
-		IActivityInstService activityInstService = processEngine.getActivityInstService();
-		
-		//清除测试数据
-		TestUtil.cleanData(processEngine.getApplicationContext());
-		
+public class StartActivityExampleTest extends AbstractFlowTest {
+	@Test
+	public void testFlow() {
 		//部署流程
 		procDefService.deployProcessFile("classpath:flow/StartActivityExample.xml");
-		
-		//添加filter
-		processEngine.addFilter(new LoggerProcessFilter());
-		processEngine.addFilter(new TransCtrlFilter());
 
 		long start = System.currentTimeMillis();
 			

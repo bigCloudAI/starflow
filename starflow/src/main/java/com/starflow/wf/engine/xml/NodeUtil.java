@@ -31,8 +31,6 @@ import com.starflow.wf.engine.model.Participant;
 import com.starflow.wf.engine.model.elements.EventXml;
 import com.starflow.wf.engine.model.elements.FreeActXml;
 import com.starflow.wf.engine.model.elements.OperationXml;
-import com.starflow.wf.engine.model.elements.SOAPParameter;
-import com.starflow.wf.engine.model.elements.WSDLParameter;
 
 /**
  * 
@@ -211,50 +209,6 @@ public class NodeUtil {
             participants.add(p);
         }
         return participants;
-	}
-	
-	/**
-	 * 获取WebService请求和响应参数
-	 */
-	@SuppressWarnings("rawtypes")
-	public static List<WSDLParameter> getWSDLParameters(Element actEl) {
-		List<WSDLParameter> parameters = new LinkedList<WSDLParameter>();
-		List list = actEl.selectNodes(StarFlowNames.ACT_CHILD_WS_PARAMETER);
-		Iterator iter=list.iterator();
-        while(iter.hasNext()){
-            Element el = (Element)iter.next();
-            WSDLParameter p = new WSDLParameter();
-            p.setName(el.attributeValue("name"));
-            p.setDataType(el.attributeValue("dataType"));
-            p.setFillBack(Boolean.valueOf(el.attributeValue("fillBack")));
-            p.setMode(el.attributeValue("mode"));
-            p.setValue(el.attributeValue("value"));
-            if(p.getValue() == null) {
-            	p.setValue(el.selectSingleNode("value").getText().trim());
-            }
-            p.setValueType(el.attributeValue("valueType"));
-            parameters.add(p);
-        }
-        return parameters;
-	}
-	
-	/**
-	 * 获取SOAP Header 参数
-	 */
-	@SuppressWarnings("rawtypes")
-	public static List<SOAPParameter> getSOAPParameters(Element actEl) {
-		List<SOAPParameter> parameters = new LinkedList<SOAPParameter>();
-		List list = actEl.selectNodes(StarFlowNames.ACT_CHILD_WS_SOAPPARAMETER);
-		Iterator iter=list.iterator();
-        while(iter.hasNext()){
-            Element el = (Element)iter.next();
-            SOAPParameter p = new SOAPParameter();
-            p.setName(el.attributeValue("name"));
-            p.setValue(el.attributeValue("value"));
-            p.setValueType(el.attributeValue("valueType"));
-            parameters.add(p);
-        }
-        return parameters;
 	}
 	
 	/**

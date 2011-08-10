@@ -21,7 +21,7 @@
 			<particiLogic></particiLogic>
 			<particiSpecActID></particiSpecActID>
 			<Participants>
-				<participant id="910150" name="俞文琦" type="person"/>
+				<participant id="910150" name="俞文" type="person"/>
 				<participant id="910115" name="李强" type="person"/>
 			</Participants>
 			<TriggerEvents>
