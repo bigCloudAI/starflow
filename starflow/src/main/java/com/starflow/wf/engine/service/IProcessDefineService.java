@@ -19,8 +19,8 @@ package com.starflow.wf.engine.service;
 import java.util.List;
 import java.util.Map;
 
-import com.starflow.wf.engine.model.elements.ActivityXml;
-import com.starflow.wf.engine.model.elements.OperationXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
+import com.starflow.wf.engine.model.elements.OperationElement;
 
 /**
  * 
@@ -82,7 +82,7 @@ public interface IProcessDefineService {
 	 * @param activityDefId 环节定义ID
 	 * @return Map<String, String>
 	 */
-	public List<OperationXml> getActivityOperations(final Long processDefId, final String activityDefId);
+	public List<OperationElement> getActivityOperations(final Long processDefId, final String activityDefId);
 	
 	/**
 	 * 获取环节模板信息
@@ -100,7 +100,7 @@ public interface IProcessDefineService {
 	 * @param activityDefId 环节定义ID
 	 * @return List<ActivityXml>
 	 */
-	public List<ActivityXml> findBeforeActivities(final Long processDefId, final String activityDefId);
+	public List<ActivityElement> findBeforeActivities(final Long processDefId, final String activityDefId);
 	
 	/**
 	 * 查找当前环节的所有后一步环节
@@ -109,5 +109,5 @@ public interface IProcessDefineService {
 	 * @param activityDefId 环节定义ID
 	 * @return List<ActivityXml>
 	 */
-	public List<ActivityXml> findAfterActivities(final Long processDefId, final String activityDefId);
+	public List<ActivityElement> findAfterActivities(final Long processDefId, final String activityDefId);
 }

@@ -19,7 +19,7 @@ package com.starflow.wf.engine.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.starflow.wf.engine.model.elements.ProcessXml;
+import com.starflow.wf.engine.model.elements.ProcessElement;
 
 /**
  * 
@@ -41,7 +41,7 @@ public class ProcessDefine implements Serializable {
 	private Date updateTime;
 	private String updator;
 	
-	private ProcessXml processObject;
+	private ProcessElement processObject;
 	
 	public long getProcessDefId() {
 		return processDefId;
@@ -103,10 +103,10 @@ public class ProcessDefine implements Serializable {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	public ProcessXml getProcessObject() {
+	public ProcessElement getProcessObject() {
 		return processObject;
 	}
-	public void setProcessObject(ProcessXml processObject) {
+	public void setProcessObject(ProcessElement processObject) {
 		this.processObject = processObject;
 	}
 	public String getCreator() {

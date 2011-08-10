@@ -29,7 +29,7 @@ import com.starflow.wf.engine.event.ActivityCreateEvent;
 import com.starflow.wf.engine.model.Participant;
 import com.starflow.wf.engine.model.ProcessInstance;
 import com.starflow.wf.engine.model.WorkItem;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 
 /**
  * 多工作项模式
@@ -39,7 +39,7 @@ import com.starflow.wf.engine.model.elements.ActivityXml;
  */
 public class MultiWorkItemMode extends AbstractWorkItemMode {
 
-	public List<WorkItem> createWorkItem(AbstractFlowEvent event, ActivityXml activityXml) {
+	public List<WorkItem> createWorkItem(AbstractFlowEvent event, ActivityElement activityXml) {
 		String numStrategy = activityXml.getWorkitemNumStrategy();
 		List<WorkItem> workItems = new ArrayList<WorkItem>();
 		ProcessInstance procInst = ((ActivityCreateEvent)event).getProcessInstance();

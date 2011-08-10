@@ -24,7 +24,7 @@ import com.starflow.wf.engine.StarFlowState;
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.model.ActivityInst;
 import com.starflow.wf.engine.model.ProcessInstance;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 
 /**
  * 
@@ -33,7 +33,7 @@ import com.starflow.wf.engine.model.elements.ActivityXml;
  */
 public class StartActivityType implements ActivityType {
 
-	public ActivityInst createActivity(AbstractFlowEvent event, ActivityXml activityXml) {
+	public ActivityInst createActivity(AbstractFlowEvent event, ActivityElement activityXml) {
 		ProcessInstance procInst = event.getProcessInstance();
 		
 		ActivityInst activityInst = new ActivityInst();
@@ -51,7 +51,7 @@ public class StartActivityType implements ActivityType {
 		return activityInst;
 	}
 
-	public boolean isCompleteActivity(AbstractFlowEvent event, ActivityXml activityXml) {
+	public boolean isCompleteActivity(AbstractFlowEvent event, ActivityElement activityXml) {
 		return true;
 	}
 }

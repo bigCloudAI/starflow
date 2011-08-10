@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.model.WorkItem;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 
 /**
  * 
@@ -28,5 +28,5 @@ import com.starflow.wf.engine.model.elements.ActivityXml;
  * @version 1.0
  */
 public interface WorkItemMode {
-	public List<WorkItem> createWorkItem(AbstractFlowEvent event, ActivityXml activityXml);
+	public List<WorkItem> createWorkItem(AbstractFlowEvent event, ActivityElement activityXml);
 }

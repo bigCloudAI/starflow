@@ -37,7 +37,7 @@ import com.starflow.wf.engine.model.ActivityInst;
 import com.starflow.wf.engine.model.ProcessDefine;
 import com.starflow.wf.engine.model.ProcessInstance;
 import com.starflow.wf.engine.model.TransCtrl;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 import com.starflow.wf.engine.repository.IActivityInstRepository;
 import com.starflow.wf.engine.repository.IProcessDefineRepository;
 import com.starflow.wf.engine.repository.IProcessInstanceRepository;
@@ -81,7 +81,7 @@ public class ActivityInstService implements IActivityInstService {
 		
 		final ProcessInstance processInstance = this.procInstRep.findProcessInstance(activityInst.getProcessInstId());
 		final ProcessDefine processDefine = this.procDefRep.findProcessDefine(processInstance.getProcessDefId());
-		final ActivityXml activityXml = processDefine.getProcessObject().getActivitys().get(activityInst.getActivityDefId()); 
+		final ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityInst.getActivityDefId()); 
 		
 		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 			@Override
@@ -102,7 +102,7 @@ public class ActivityInstService implements IActivityInstService {
 			throw new ProcessEngineException("流程不处于运行状态，不能重启环节！");
 		
 		final ProcessDefine processDefine = this.procDefRep.findProcessDefine(processInstance.getProcessDefId());
-		final ActivityXml activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId); 
+		final ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId); 
 		
 		if(activityXml == null)
 			throw new ProcessEngineException("指定启动环节【{}】不存在" + activityDefId);
@@ -158,7 +158,7 @@ public class ActivityInstService implements IActivityInstService {
 //		}
 		
 		ProcessDefine processDefine = this.procDefRep.findProcessDefine(processInstance.getProcessDefId());
-		ActivityXml activityXml = processDefine.getProcessObject().getActivitys().get(activityInst.getActivityDefId()); 
+		ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityInst.getActivityDefId()); 
 		
 		EventUtil.publishActivityRestartEvent(processEngine, processInstance, activityInst, activityXml);
 	}
@@ -167,7 +167,7 @@ public class ActivityInstService implements IActivityInstService {
 		final ActivityInst activityInst = actInstRep.findActivityInst(activityInstId);
 		final ProcessInstance processInstance = procInstRep.findProcessInstance(activityInst.getProcessInstId());
 		final ProcessDefine processDefine = this.procDefRep.findProcessDefine(processInstance.getProcessDefId());
-		final ActivityXml activityXml = processDefine.getProcessObject().getActivitys().get(activityInst.getActivityDefId()); 
+		final ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityInst.getActivityDefId()); 
 		
 		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 			@Override

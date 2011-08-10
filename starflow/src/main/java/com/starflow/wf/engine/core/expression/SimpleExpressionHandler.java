@@ -21,7 +21,7 @@ import java.util.Map;
 
 import com.starflow.wf.engine.core.expression.aviator.AbstractAviatorExpressionHandler;
 import com.starflow.wf.engine.core.expression.xpath.XPathBuilder;
-import com.starflow.wf.engine.model.elements.TransitionXml;
+import com.starflow.wf.engine.model.elements.TransitionElement;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class SimpleExpressionHandler extends AbstractAviatorExpressionHandler {
 	}
 
 	@Override
-	public String buildExpression(TransitionXml transition, Map<String, Object> conditions) {
+	public String buildExpression(TransitionElement transition, Map<String, Object> conditions) {
 		String compType = compTypes.get(transition.getCompType());
 		
 		//xpath表达式解析

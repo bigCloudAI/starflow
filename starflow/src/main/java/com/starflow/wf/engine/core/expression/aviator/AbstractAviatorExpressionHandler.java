@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import com.starflow.wf.engine.ScriptEngineConstants;
 import com.starflow.wf.engine.core.expression.IExpressionHandler;
 import com.starflow.wf.engine.core.expression.RuntimeExpressionException;
-import com.starflow.wf.engine.model.elements.TransitionXml;
+import com.starflow.wf.engine.model.elements.TransitionElement;
 
 /**
  * 
@@ -41,7 +41,7 @@ abstract public class AbstractAviatorExpressionHandler implements IExpressionHan
 
 	@Override
 	public boolean execute(ScriptEngineManager engineManager,
-			TransitionXml transition, Map<String, Object> conditions) {
+			TransitionElement transition, Map<String, Object> conditions) {
 		ScriptEngine engine = engineManager.getEngineByName(ScriptEngineConstants.AVIATOR);
 		
 		//创建执行表达式
@@ -72,5 +72,5 @@ abstract public class AbstractAviatorExpressionHandler implements IExpressionHan
 		}
 	}
 
-	abstract public String buildExpression(TransitionXml transition, Map<String, Object> conditions);
+	abstract public String buildExpression(TransitionElement transition, Map<String, Object> conditions);
 }

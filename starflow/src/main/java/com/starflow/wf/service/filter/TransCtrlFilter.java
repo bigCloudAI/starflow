@@ -24,7 +24,7 @@ import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.event.ActivityCreateEvent;
 import com.starflow.wf.engine.model.ActivityInst;
 import com.starflow.wf.engine.model.TransCtrl;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 import com.starflow.wf.engine.repository.IActivityInstRepository;
 
 /**
@@ -63,7 +63,7 @@ public class TransCtrlFilter extends ProcessFilterAdapter {
 		}
 	}
 	
-	public void saveTransCtrlCanNotAct(AbstractFlowEvent event, ActivityXml activityXml) {
+	public void saveTransCtrlCanNotAct(AbstractFlowEvent event, ActivityElement activityXml) {
 		if(event instanceof ActivityCreateEvent) {
 			IActivityInstRepository actInstRep = event.getActInstRep(); 
 			ActivityInst srcActInst = ((ActivityCreateEvent)event).getActivityInst();

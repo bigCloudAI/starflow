@@ -31,7 +31,7 @@ import com.starflow.wf.engine.event.ProcessStartEvent;
 import com.starflow.wf.engine.event.ProcessTerminalEvent;
 import com.starflow.wf.engine.model.ActivityInst;
 import com.starflow.wf.engine.model.ProcessInstance;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 import com.starflow.wf.engine.support.TriggerProcessEventUtil;
 import com.starflow.wf.service.filter.ProcessFilter;
 
@@ -106,7 +106,7 @@ public class EventUtil {
 	 * @param activityInst
 	 * @param activityXml
 	 */
-	public static void publishActivityStartEvent(AbstractFlowEvent event, ActivityInst activityInst, ActivityXml activityXml) {
+	public static void publishActivityStartEvent(AbstractFlowEvent event, ActivityInst activityInst, ActivityElement activityXml) {
 		triggerFilterExecuter(event, activityInst);
 		
 		ActivityStartEvent activityStartEvent = new ActivityStartEvent(event.getProcessEngine());
@@ -125,7 +125,7 @@ public class EventUtil {
 	 * @param activityXml
 	 */
 	public static void publishActivityStartEvent(ProcessEngine processEngine, ProcessInstance processInstance, 
-			ActivityInst activityInst, ActivityXml activityXml) {
+			ActivityInst activityInst, ActivityElement activityXml) {
 		ActivityStartEvent activityStartEvent = new ActivityStartEvent(processEngine);
 		activityStartEvent.setProcessInstance(processInstance);
 		activityStartEvent.setActivityInst(activityInst);
@@ -141,7 +141,7 @@ public class EventUtil {
 	 * @param activityXml
 	 */
 	public static void publishActivityRestartEvent(ProcessEngine processEngine, ProcessInstance processInstance, 
-			ActivityInst activityInst, ActivityXml activityXml) {
+			ActivityInst activityInst, ActivityElement activityXml) {
 		ActivityRestartEvent activityRestartEvent = new ActivityRestartEvent(processEngine);
 		activityRestartEvent.setProcessInstance(processInstance);
 		activityRestartEvent.setActivityInst(activityInst);

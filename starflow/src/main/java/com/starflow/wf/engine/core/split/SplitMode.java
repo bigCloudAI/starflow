@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.model.ActivityInst;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 
 /**
  * 
@@ -32,5 +32,5 @@ public interface SplitMode {
 	 * 根据当前环节查找的的所有分支。过滤去满足条件的分支。并生成环节实例返回
 	 * @return
 	 */
-	public List<ActivityInst> createNextActInsts(AbstractFlowEvent event, List<ActivityXml> activityXmls);
+	public List<ActivityInst> createNextActInsts(AbstractFlowEvent event, List<ActivityElement> activityXmls);
 }

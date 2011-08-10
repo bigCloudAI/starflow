@@ -30,7 +30,7 @@ import com.starflow.wf.engine.model.Participant;
  * @version 1.0
  */
 @SuppressWarnings("serial")
-public class ActivityXml implements Serializable {
+public class ActivityElement implements Serializable {
 	private String id;
 	private String type;
 	private String name;
@@ -64,10 +64,10 @@ public class ActivityXml implements Serializable {
 	private String subProcess;
 	private String spInvokePattern;
 	
-	private List<EventXml> events = new ArrayList<EventXml>();
-	private List<FreeActXml> freeActs;
+	private List<EventElement> events = new ArrayList<EventElement>();
+	private List<FreeActElement> freeActs;
 	private List<Participant> participants;
-	private List<OperationXml> operations;
+	private List<OperationElement> operations;
 	private String action;
 	private String description;
 	
@@ -82,8 +82,8 @@ public class ActivityXml implements Serializable {
 	private String left;
 	private String top;
 	
-	List<TransitionXml> beforeTrans = new CopyOnWriteArrayList<TransitionXml>();
-	List<TransitionXml> afterTrans = new CopyOnWriteArrayList<TransitionXml>();
+	List<TransitionElement> beforeTrans = new CopyOnWriteArrayList<TransitionElement>();
+	List<TransitionElement> afterTrans = new CopyOnWriteArrayList<TransitionElement>();
 	
 	public String getId() {
 		return id;
@@ -205,16 +205,16 @@ public class ActivityXml implements Serializable {
 	public void setSubProcess(String subProcess) {
 		this.subProcess = subProcess;
 	}
-	public List<EventXml> getEvents() {
+	public List<EventElement> getEvents() {
 		return events;
 	}
-	public void setEvents(List<EventXml> events) {
+	public void setEvents(List<EventElement> events) {
 		this.events = events;
 	}
-	public List<FreeActXml> getFreeActs() {
+	public List<FreeActElement> getFreeActs() {
 		return freeActs;
 	}
-	public void setFreeActs(List<FreeActXml> freeActs) {
+	public void setFreeActs(List<FreeActElement> freeActs) {
 		this.freeActs = freeActs;
 	}
 	public List<Participant> getParticipants() {
@@ -241,22 +241,22 @@ public class ActivityXml implements Serializable {
 	public void setTop(String top) {
 		this.top = top;
 	}
-	public List<TransitionXml> getBeforeTrans() {
+	public List<TransitionElement> getBeforeTrans() {
 		return beforeTrans;
 	}
-	public void setBeforeTrans(List<TransitionXml> beforeTrans) {
+	public void setBeforeTrans(List<TransitionElement> beforeTrans) {
 		this.beforeTrans = beforeTrans;
 	}
-	public List<TransitionXml> getAfterTrans() {
+	public List<TransitionElement> getAfterTrans() {
 		return afterTrans;
 	}
-	public void setAfterTrans(List<TransitionXml> afterTrans) {
+	public void setAfterTrans(List<TransitionElement> afterTrans) {
 		this.afterTrans = afterTrans;
 	}
-	public List<OperationXml> getOperations() {
+	public List<OperationElement> getOperations() {
 		return operations;
 	}
-	public void setOperations(List<OperationXml> operations) {
+	public void setOperations(List<OperationElement> operations) {
 		this.operations = operations;
 	}
 	public String getAction() {

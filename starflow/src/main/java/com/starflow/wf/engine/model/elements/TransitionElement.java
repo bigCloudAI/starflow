@@ -24,7 +24,7 @@ import java.io.Serializable;
  * @version 1.0
  */
 @SuppressWarnings("serial")
-public class TransitionXml implements Serializable {
+public class TransitionElement implements Serializable {
 	private String id;
 	private String name;
 	private String from;

@@ -21,7 +21,7 @@ package com.starflow.wf.engine.model.elements;
  * @author libinsong1204@gmail.com
  * @version 1.0
  */
-public class EventXml {
+public class EventElement {
 	public String eventType;
 	public String action;
 	public String invokePattern;

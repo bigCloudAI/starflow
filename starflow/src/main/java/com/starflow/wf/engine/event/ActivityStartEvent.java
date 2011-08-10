@@ -20,7 +20,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.starflow.wf.engine.ProcessEngine;
 import com.starflow.wf.engine.model.ActivityInst;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 
 /**
  * 
@@ -30,7 +30,7 @@ import com.starflow.wf.engine.model.elements.ActivityXml;
 @SuppressWarnings("serial")
 public class ActivityStartEvent extends AbstractFlowEvent {
 	private ActivityInst activityInst;
-	private ActivityXml activityXml;
+	private ActivityElement activityXml;
 
 	public ActivityStartEvent(ProcessEngine processEngine) {
 		this(processEngine.getApplicationContext());
@@ -49,11 +49,11 @@ public class ActivityStartEvent extends AbstractFlowEvent {
 		this.activityInst = activityInst;
 	}
 
-	public ActivityXml getActivityXml() {
+	public ActivityElement getActivityXml() {
 		return activityXml;
 	}
 
-	public void setActivityXml(ActivityXml activityXml) {
+	public void setActivityXml(ActivityElement activityXml) {
 		this.activityXml = activityXml;
 	}
 }

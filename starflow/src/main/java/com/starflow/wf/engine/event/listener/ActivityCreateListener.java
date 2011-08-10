@@ -31,9 +31,9 @@ import com.starflow.wf.engine.core.expression.IExpressionHandler;
 import com.starflow.wf.engine.core.split.SplitMode;
 import com.starflow.wf.engine.event.ActivityCreateEvent;
 import com.starflow.wf.engine.model.ActivityInst;
-import com.starflow.wf.engine.model.elements.ActivityXml;
-import com.starflow.wf.engine.model.elements.ProcessXml;
-import com.starflow.wf.engine.model.elements.TransitionXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
+import com.starflow.wf.engine.model.elements.ProcessElement;
+import com.starflow.wf.engine.model.elements.TransitionElement;
 
 /**
  * 
@@ -49,13 +49,13 @@ public class ActivityCreateListener extends AbstractProcessListener {
 		
 		String mode = Constants.SPLIT_SINGLE;
 		
-		List<ActivityXml> nextNodes = new ArrayList<ActivityXml>();
+		List<ActivityElement> nextNodes = new ArrayList<ActivityElement>();
 
-		ActivityXml activityXml = event.getProcessXml().getActivitys().get(activityInst.getActivityDefId());
+		ActivityElement activityXml = event.getProcessXml().getActivitys().get(activityInst.getActivityDefId());
 		mode = activityXml.getSplitMode();;
 		nextNodes = findFreeActs(event, event.getProcessXml(), activityXml); //自由流已经指定要启动的环节
 		if(nextNodes == null || nextNodes.size() == 0) {
-			List<TransitionXml> transitions = activityXml.getAfterTrans();
+			List<TransitionElement> transitions = activityXml.getAfterTrans();
 			nextNodes = findNextActs(event, event.getProcessXml(), transitions, activityXml, mode);
 		}
 		
@@ -73,38 +73,38 @@ public class ActivityCreateListener extends AbstractProcessListener {
 	 * @param mode 环节分支模式
 	 * @return
 	 */
-	private List<ActivityXml> findNextActs(ActivityCreateEvent event,
-			ProcessXml processXml, List<TransitionXml> transitions, ActivityXml activityXml, String mode) {
-		List<ActivityXml> nextNodes = new ArrayList<ActivityXml>();
+	private List<ActivityElement> findNextActs(ActivityCreateEvent event,
+			ProcessElement processXml, List<TransitionElement> transitions, ActivityElement activityXml, String mode) {
+		List<ActivityElement> nextNodes = new ArrayList<ActivityElement>();
 		
 		if(Constants.SPLIT_SINGLE.equalsIgnoreCase(mode)) {//单一分支
 			// (1) 满足条件的连接线所指的活动被触发；
 			// (2) 如果有若干个连接线上的条件都满足，那么比较连接线上的优先级，优先级高的那条连接线所指的活动将被触发；
 			// (3) 如果连接线上的条件都不满足，那么取“默认值”的那条连接线所指的活动将被触发。
-			TransitionXml defaultTransition = findTransitonsForJexl(event, processXml,
+			TransitionElement defaultTransition = findTransitonsForJexl(event, processXml,
 					transitions, nextNodes, true);
 			
 			if(nextNodes.size() ==0 ) {
 				String _to = defaultTransition.getTo();
-				ActivityXml _e = processXml.getActivitys().get(_to);
+				ActivityElement _e = processXml.getActivitys().get(_to);
 				nextNodes.add(_e);
 			}
 		} else if(Constants.SPLIT_MULTI.equalsIgnoreCase(mode)) {//多路分支
 			// (1) 如果连接线上取“默认值”，那么由此连接线所指的后继活动会被触发；
 			// (2) 如果连接线上的条件满足，那么由此连接线所指的后继活动会被触发。
-			TransitionXml defaultTransition = findTransitonsForJexl(event, processXml,
+			TransitionElement defaultTransition = findTransitonsForJexl(event, processXml,
 					transitions, nextNodes, false);
 			
 			if(defaultTransition != null) {
 				String _to = defaultTransition.getTo();
-				ActivityXml _e = processXml.getActivitys().get(_to);
+				ActivityElement _e = processXml.getActivitys().get(_to);
 				nextNodes.add(_e);
 			}
 		} else if(Constants.SPLIT_ALL.equalsIgnoreCase(mode)) {//全部分支
 			//表示该活动结束后它的所有后继活动将同时被触发。
-			for(TransitionXml tranEl : transitions) {
+			for(TransitionElement tranEl : transitions) {
 				String _to = tranEl.getTo();
-				ActivityXml _e = processXml.getActivitys().get(_to);
+				ActivityElement _e = processXml.getActivitys().get(_to);
 				nextNodes.add(_e);
 			}
 		}
@@ -119,18 +119,18 @@ public class ActivityCreateListener extends AbstractProcessListener {
 	 * @param isSort
 	 * @return
 	 */
-	private TransitionXml findTransitonsForJexl(ActivityCreateEvent event, ProcessXml processXml,
-			List<TransitionXml> transitions, List<ActivityXml> nextNodes, boolean isSort) {
+	private TransitionElement findTransitonsForJexl(ActivityCreateEvent event, ProcessElement processXml,
+			List<TransitionElement> transitions, List<ActivityElement> nextNodes, boolean isSort) {
 		//准备Transition 表达式变量参数
 		RelaDataManager relaDataManager = RelaDataManagerBuilder.buildRelaDataManager();
 		long processInstId = event.getProcessInstance().getProcessInstId();
 		String activityDefId = event.getPreActivityXml().getId();
 		Map<String , Object> conditions = relaDataManager.getExpressConditions(processInstId, activityDefId);
 		
-		List<TransitionXml> tranEls = new ArrayList<TransitionXml>();
+		List<TransitionElement> tranEls = new ArrayList<TransitionElement>();
 		
-		TransitionXml defaultTransition = null;
-		for(TransitionXml transitionXml : transitions) { //循所有的分支，寻找满足条件的分支
+		TransitionElement defaultTransition = null;
+		for(TransitionElement transitionXml : transitions) { //循所有的分支，寻找满足条件的分支
 			boolean isDefault = transitionXml.getIsDefault();
 			if(isDefault) {
 				defaultTransition = transitionXml;
@@ -146,8 +146,8 @@ public class ActivityCreateListener extends AbstractProcessListener {
 		
 		//当为单一分支的时候，连线按照优先级降序排列。
 		if(isSort && tranEls.size()>1) {
-			Collections.sort(tranEls, new Comparator<TransitionXml>() {
-				public int compare(TransitionXml o1, TransitionXml o2) {
+			Collections.sort(tranEls, new Comparator<TransitionElement>() {
+				public int compare(TransitionElement o1, TransitionElement o2) {
 					int priority1 = o1.getPriority();
 					int priority2 = o2.getPriority();
 					if(priority1 == priority2)
@@ -160,9 +160,9 @@ public class ActivityCreateListener extends AbstractProcessListener {
 			});
 		}
 		
-		for(TransitionXml tranEl : tranEls) {
+		for(TransitionElement tranEl : tranEls) {
 			String _to = tranEl.getTo();
-			ActivityXml _e = processXml.getActivitys().get(_to);
+			ActivityElement _e = processXml.getActivitys().get(_to);
 			nextNodes.add(_e);
 		}
 		return defaultTransition;
@@ -175,7 +175,7 @@ public class ActivityCreateListener extends AbstractProcessListener {
 	 * @param document
 	 * @return
 	 */
-	private List<ActivityXml> findFreeActs(ActivityCreateEvent event, ProcessXml processXml, ActivityXml activityXml) {
+	private List<ActivityElement> findFreeActs(ActivityCreateEvent event, ProcessElement processXml, ActivityElement activityXml) {
 		ActivityInst activityInst = ((ActivityCreateEvent)event).getActivityInst();
 		if(!Constants.ACT_TYPE_MANUL.equalsIgnoreCase(activityInst.getActivityType()))
 			return null;
@@ -188,9 +188,9 @@ public class ActivityCreateListener extends AbstractProcessListener {
 		long processInstId = event.getProcessInstance().getProcessInstId();
 		String activityDefId = event.getPreActivityXml().getId();
 		List<String> actDefIds =  (List<String>)relaDataManager.getNextFreeActs(processInstId, activityDefId);
-		List<ActivityXml> nextNodes = new ArrayList<ActivityXml>();
+		List<ActivityElement> nextNodes = new ArrayList<ActivityElement>();
 		for(String actDefId : actDefIds) {
-			ActivityXml _e = processXml.getActivitys().get(actDefId);
+			ActivityElement _e = processXml.getActivitys().get(actDefId);
 			nextNodes.add(_e);
 		}
 		

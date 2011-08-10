@@ -28,8 +28,8 @@ import com.starflow.wf.engine.core.data.RelaDataManager;
 import com.starflow.wf.engine.core.expression.IExpressionHandler;
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.model.ActivityInst;
-import com.starflow.wf.engine.model.elements.ActivityXml;
-import com.starflow.wf.engine.model.elements.TransitionXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
+import com.starflow.wf.engine.model.elements.TransitionElement;
 import com.starflow.wf.engine.support.TriggerActivityEventUtil;
 
 
@@ -46,7 +46,7 @@ abstract public class AbstractSplitMode implements SplitMode {
 	 * 
 	 * @return
 	 */
-	protected boolean isStartAct(AbstractFlowEvent event, ActivityXml activityXml) {
+	protected boolean isStartAct(AbstractFlowEvent event, ActivityElement activityXml) {
 		String joinMode = activityXml.getJoinMode();
 		boolean isStartAct = false;
 		
@@ -57,7 +57,7 @@ abstract public class AbstractSplitMode implements SplitMode {
 			// 表示该活动必须等到它的所有满足条件的前驱活动全部完成才可以触发。满足条件的前驱活动包括：
 			// (1) 它与该活动的连线是“默认值”。
 			// (2) 它与该活动连线上条件为“true”。
-			List<TransitionXml> transitions = activityXml.getBeforeTrans();
+			List<TransitionElement> transitions = activityXml.getBeforeTrans();
 			int finishCount = event.getActInstRep().findFromTransCtrls(event.getProcessInstance().getProcessInstId(), activityXml.getId());
 			int count = findTransitonsForJexl(event, event.getProcessEngine().getScriptEngineManager(), transitions);
 			
@@ -68,7 +68,7 @@ abstract public class AbstractSplitMode implements SplitMode {
 		} else if (Constants.JOIN_ALL.equalsIgnoreCase(joinMode)) {
 			//表示该活动必须等到它的所有前驱活动全部完成才可以触发。
 			int count = event.getActInstRep().findFromTransCtrls(event.getProcessInstance().getProcessInstId(), activityXml.getId());
-			List<TransitionXml> transitions = activityXml.getBeforeTrans();;
+			List<TransitionElement> transitions = activityXml.getBeforeTrans();;
 			
 			if(++count == transitions.size()) {
 				isStartAct = true;
@@ -86,7 +86,7 @@ abstract public class AbstractSplitMode implements SplitMode {
 	 * @param event
 	 * @param activityXml
 	 */
-	private void triggerActivityBeforeStartEvent(boolean isStartAct, AbstractFlowEvent event, ActivityXml activityXml) {
+	private void triggerActivityBeforeStartEvent(boolean isStartAct, AbstractFlowEvent event, ActivityElement activityXml) {
 		if(isStartAct && activityXml.getEvents() != null) {
 			ActivityInst activityInst = new ActivityInst();
 			activityInst.setActivityInstId(event.getProcessInstance().getProcessInstId());
@@ -100,7 +100,7 @@ abstract public class AbstractSplitMode implements SplitMode {
 	 * @param transitions
 	 * @return
 	 */
-	private int findTransitonsForJexl(AbstractFlowEvent event, ScriptEngineManager engineManager, List<TransitionXml> transitions) {
+	private int findTransitonsForJexl(AbstractFlowEvent event, ScriptEngineManager engineManager, List<TransitionElement> transitions) {
 		int count = 0;
 		
 		RelaDataManager relaDataManager = RelaDataManagerBuilder.buildRelaDataManager();
@@ -108,7 +108,7 @@ abstract public class AbstractSplitMode implements SplitMode {
 		String activityDefId = event.getPreActivityXml().getId();
 		Map<String , Object> conditions = relaDataManager.getExpressConditions(processInstId, activityDefId);
 		
-		for(TransitionXml transitionXml : transitions) { //循所有的分支，寻找满足条件的分支
+		for(TransitionElement transitionXml : transitions) { //循所有的分支，寻找满足条件的分支
 			boolean isDefault = transitionXml.getIsDefault();
 			if(isDefault) {
 				count++;

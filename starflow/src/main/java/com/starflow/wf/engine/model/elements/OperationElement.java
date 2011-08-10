@@ -16,18 +16,16 @@
 
 package com.starflow.wf.engine.model.elements;
 
-import java.io.Serializable;
-
 /**
  * 
  * @author libinsong1204@gmail.com
  * @version 1.0
  */
-@SuppressWarnings("serial")
-public class FreeActXml implements Serializable {
+public class OperationElement {
 	private String id;
+	private String code;
+	private String action;
 	private String name;
-	private String type;
 	
 	public String getId() {
 		return id;
@@ -35,16 +33,22 @@ public class FreeActXml implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getAction() {
+		return action;
+	}
+	public void setAction(String action) {
+		this.action = action;
+	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
 	}
 }

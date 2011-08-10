@@ -25,9 +25,9 @@ import org.springframework.util.Assert;
 import com.starflow.wf.engine.ProcessEngine;
 import com.starflow.wf.engine.core.Constants;
 import com.starflow.wf.engine.model.ProcessDefine;
-import com.starflow.wf.engine.model.elements.ActivityXml;
-import com.starflow.wf.engine.model.elements.FreeActXml;
-import com.starflow.wf.engine.model.elements.TransitionXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
+import com.starflow.wf.engine.model.elements.FreeActElement;
+import com.starflow.wf.engine.model.elements.TransitionElement;
 import com.starflow.wf.engine.repository.IProcessDefineRepository;
 import com.starflow.wf.engine.service.IFreeFlowService;
 
@@ -55,32 +55,32 @@ public class FreeFlowService implements IFreeFlowService {
 	 */
 	public boolean isFreeActivity(long processDefId, String activityDefId) {
 		ProcessDefine processDefine = this.procDefRep.findProcessDefine(processDefId);
-		ActivityXml activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
+		ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
 		return activityXml.getIsFreeActivity();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<FreeActXml> queryPossibleNextActsOfFreeActivity(long processDefId, String activityDefId) {
+	public List<FreeActElement> queryPossibleNextActsOfFreeActivity(long processDefId, String activityDefId) {
 		ProcessDefine processDefine = this.procDefRep.findProcessDefine(processDefId);
-		ActivityXml activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
+		ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
 		String strategy = activityXml.getFreeRangeStrategy();
 		
 		//是否尽限为人工活动
 		boolean isOnlyLimitedManualAct = activityXml.getIsOnlyLimitedManualActivity();
 		
-		List<FreeActXml> actEls = new ArrayList<FreeActXml>();
+		List<FreeActElement> actEls = new ArrayList<FreeActElement>();
 		if(Constants.Free_Act_strategy_three.equalsIgnoreCase(strategy)) {
 			//在后继活动范围内自由
-			List<TransitionXml> transitions = activityXml.getAfterTrans();
-			for(TransitionXml tx : transitions) {
+			List<TransitionElement> transitions = activityXml.getAfterTrans();
+			for(TransitionElement tx : transitions) {
 				String _actDefId = tx.getTo();
-				ActivityXml ax = processDefine.getProcessObject().getActivitys().get(_actDefId);
+				ActivityElement ax = processDefine.getProcessObject().getActivitys().get(_actDefId);
 				if(isOnlyLimitedManualAct && !Constants.ACT_TYPE_MANUL.equals(ax.getType())) {
 					continue;
 				}
-				FreeActXml freeActXml = new FreeActXml();
+				FreeActElement freeActXml = new FreeActElement();
 				freeActXml.setId(ax.getId());
 				freeActXml.setName(ax.getName());
 				freeActXml.setType(ax.getType());
@@ -91,12 +91,12 @@ public class FreeFlowService implements IFreeFlowService {
 			activityXml.getFreeActs();
 		} else if(Constants.Free_Act_strategy_One.equalsIgnoreCase(strategy)) {
 			//在流程范围内任意自由
-			Collection<ActivityXml> collect = processDefine.getProcessObject().getActivitys().values();
-			for(ActivityXml ax : collect) {
+			Collection<ActivityElement> collect = processDefine.getProcessObject().getActivitys().values();
+			for(ActivityElement ax : collect) {
 				if(isOnlyLimitedManualAct && !Constants.ACT_TYPE_MANUL.equals(ax.getType())) {
 					continue;
 				}
-				FreeActXml freeActXml = new FreeActXml();
+				FreeActElement freeActXml = new FreeActElement();
 				freeActXml.setId(ax.getId());
 				freeActXml.setName(ax.getName());
 				freeActXml.setType(ax.getType());

@@ -25,7 +25,7 @@ import com.starflow.wf.engine.core.Constants;
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.model.ActivityInst;
 import com.starflow.wf.engine.model.ProcessInstance;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 
 /**
  * 
@@ -34,7 +34,7 @@ import com.starflow.wf.engine.model.elements.ActivityXml;
  */
 public class ToolAppActivityType extends AbstractActivityType {
 
-	public ActivityInst createActivity(AbstractFlowEvent event, ActivityXml activityXml) {
+	public ActivityInst createActivity(AbstractFlowEvent event, ActivityElement activityXml) {
 		String activityDefId = activityXml.getId();
 		long processInstId = event.getProcessInstance().getProcessInstId();
 		ActivityInst activityInst = this.findWaitingActInst(event, processInstId, activityDefId);
@@ -60,7 +60,7 @@ public class ToolAppActivityType extends AbstractActivityType {
 		return activityInst;
 	}
 
-	public boolean isCompleteActivity(AbstractFlowEvent event, ActivityXml activityXml) {
+	public boolean isCompleteActivity(AbstractFlowEvent event, ActivityElement activityXml) {
 		return true;
 	}
 }

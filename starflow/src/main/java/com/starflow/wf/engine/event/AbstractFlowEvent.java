@@ -22,8 +22,8 @@ import org.springframework.context.event.ApplicationContextEvent;
 import com.starflow.wf.engine.ProcessEngine;
 import com.starflow.wf.engine.model.ProcessDefine;
 import com.starflow.wf.engine.model.ProcessInstance;
-import com.starflow.wf.engine.model.elements.ActivityXml;
-import com.starflow.wf.engine.model.elements.ProcessXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
+import com.starflow.wf.engine.model.elements.ProcessElement;
 import com.starflow.wf.engine.repository.IActivityInstRepository;
 import com.starflow.wf.engine.repository.IProcessDefineRepository;
 import com.starflow.wf.engine.repository.IProcessInstanceRepository;
@@ -39,8 +39,8 @@ public abstract class AbstractFlowEvent extends ApplicationContextEvent {
 
 	private ProcessEngine processEngine;
 	private ProcessInstance processInstance;
-	private ProcessXml processXml;
-	private ActivityXml preActivityXml;
+	private ProcessElement processXml;
+	private ActivityElement preActivityXml;
 	
 	private IProcessInstanceRepository procInstRep;
 	private IActivityInstRepository actInstRep;
@@ -72,7 +72,7 @@ public abstract class AbstractFlowEvent extends ApplicationContextEvent {
 		processXml = processDefine.getProcessObject();
 	}
 	
-	public ProcessXml getProcessXml() {
+	public ProcessElement getProcessXml() {
 		return processXml;
 	}
 	
@@ -88,11 +88,11 @@ public abstract class AbstractFlowEvent extends ApplicationContextEvent {
 		return workItemRep;
 	}
 
-	public ActivityXml getPreActivityXml() {
+	public ActivityElement getPreActivityXml() {
 		return preActivityXml;
 	}
 
-	public void setPreActivityXml(ActivityXml preActivityXml) {
+	public void setPreActivityXml(ActivityElement preActivityXml) {
 		this.preActivityXml = preActivityXml;
 	}
 	

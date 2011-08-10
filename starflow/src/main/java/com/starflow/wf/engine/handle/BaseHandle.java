@@ -35,7 +35,7 @@ import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.event.ActivityStartEvent;
 import com.starflow.wf.engine.model.ActivityInst;
 import com.starflow.wf.engine.model.ProcessInstance;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 import com.starflow.wf.engine.transaction.TransactionCallback;
 import com.starflow.wf.engine.transaction.TransactionTemplate;
 import com.starflow.wf.service.spi.IApplicationExecptionAction;
@@ -62,7 +62,7 @@ public abstract class BaseHandle implements IHandle {
 	 * @param action
 	 * @param activityInst
 	 */
-	public void action(final ActivityStartEvent event, final ActivityInst activityInst, ActivityXml activityXml, final IAction action) {
+	public void action(final ActivityStartEvent event, final ActivityInst activityInst, ActivityElement activityXml, final IAction action) {
 		String invokePattern = activityXml.getInvokePattern();
 		final String transactionType = activityXml.getTransactionType();
 		
@@ -109,7 +109,7 @@ public abstract class BaseHandle implements IHandle {
 	 * @param result
 	 * @param activityXml
 	 */
-	protected abstract void saveResultRelaData(ActivityStartEvent event, Object result, ActivityXml activityXml);
+	protected abstract void saveResultRelaData(ActivityStartEvent event, Object result, ActivityElement activityXml);
 	
 	/**
 	 * 异常处理
@@ -118,7 +118,7 @@ public abstract class BaseHandle implements IHandle {
 	 * @param event
 	 * @param activityXml
 	 */
-	protected void handleException(Exception e, ActivityStartEvent event, ActivityXml activityXml) {
+	protected void handleException(Exception e, ActivityStartEvent event, ActivityElement activityXml) {
 		String exceptionStrategy = activityXml.getExceptionStrategy();
 		
 		if(Constants.ACT_EXCEPTIONSTRATEGY_ROLLBACK.equals(exceptionStrategy))

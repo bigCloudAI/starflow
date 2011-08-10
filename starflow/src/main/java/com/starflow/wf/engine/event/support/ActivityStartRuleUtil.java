@@ -28,7 +28,7 @@ import com.starflow.wf.engine.core.Constants;
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.model.ActivityInst;
 import com.starflow.wf.engine.model.ProcessInstance;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 import com.starflow.wf.service.spi.IActivateRuleAction;
 
 public class ActivityStartRuleUtil {
@@ -42,7 +42,7 @@ public class ActivityStartRuleUtil {
 	 */
 	public static boolean isStartActivity(AbstractFlowEvent event, ActivityInst activityInst) {
 		boolean isStart = true;
-		ActivityXml activityXml = event.getProcessXml().getActivitys().get(activityInst.getActivityDefId());
+		ActivityElement activityXml = event.getProcessXml().getActivitys().get(activityInst.getActivityDefId());
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("环节【{}】启动规则：{}", activityXml.getName(), activityXml.getActivateRuleType());

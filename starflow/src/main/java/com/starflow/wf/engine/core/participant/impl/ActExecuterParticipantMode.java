@@ -22,7 +22,7 @@ import com.starflow.wf.engine.core.participant.ParticipantMode;
 import com.starflow.wf.engine.core.participant.ParticipantProcessEngineException;
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.model.Participant;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 import com.starflow.wf.engine.service.IWorkItemService;
 
 /**
@@ -34,7 +34,7 @@ import com.starflow.wf.engine.service.IWorkItemService;
 public class ActExecuterParticipantMode implements ParticipantMode {
 
 	public List<Participant> creatParticipants(AbstractFlowEvent event,
-			ActivityXml activityXml) {
+			ActivityElement activityXml) {
 		IWorkItemService workItemService = event.getProcessEngine().getWorkItemService();
 		long processInstId = event.getProcessInstance().getProcessInstId();
 		String activityDefId = activityXml.getParticiSpecActID();

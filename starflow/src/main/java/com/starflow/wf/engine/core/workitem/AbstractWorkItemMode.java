@@ -26,7 +26,7 @@ import com.starflow.wf.engine.core.ParticipantModeFactory;
 import com.starflow.wf.engine.core.participant.ParticipantMode;
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.model.Participant;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 import com.starflow.wf.service.spi.IWFOMService;
 
 abstract public class AbstractWorkItemMode implements WorkItemMode {
@@ -51,7 +51,7 @@ abstract public class AbstractWorkItemMode implements WorkItemMode {
 	/**
 	 * 获取环节参与者
 	 */
-	protected List<Participant> getWIParticipants(AbstractFlowEvent event, ActivityXml activityXml) {
+	protected List<Participant> getWIParticipants(AbstractFlowEvent event, ActivityElement activityXml) {
 		List<Participant> participants = null;
 		
 		String mode = activityXml.getParticipantType();
@@ -70,7 +70,7 @@ abstract public class AbstractWorkItemMode implements WorkItemMode {
 	 * 获取环节参与者, 如果参与者为机构或角色，转换为机构和较色下的所有人员。
 	 * 为了避免与具体的组织机构相关联，调用IWFOMService相关实现去获取数据。
 	 */
-	protected List<Participant> getWIParticipantsExt(AbstractFlowEvent event, ActivityXml activityXml) {
+	protected List<Participant> getWIParticipantsExt(AbstractFlowEvent event, ActivityElement activityXml) {
 		List<Participant> _particis = null;
 		List<Participant> participants = new LinkedList<Participant>();
 		

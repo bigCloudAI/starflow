@@ -31,7 +31,7 @@ import com.starflow.wf.engine.handle.IHandle;
 import com.starflow.wf.engine.handle.InterruptStrategyException;
 import com.starflow.wf.engine.model.ActivityInst;
 import com.starflow.wf.engine.model.ProcessInstance;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 import com.starflow.wf.engine.support.TriggerActivityEventUtil;
 import com.starflow.wf.service.filter.ProcessFilter;
 
@@ -97,7 +97,7 @@ public class ActivityStartListener extends AbstractProcessListener {
 	 * @param event
 	 * @param activityXml
 	 */
-	public void updateTransCtrlIsUse(ActivityStartEvent event, ActivityXml activityXml) {
+	public void updateTransCtrlIsUse(ActivityStartEvent event, ActivityElement activityXml) {
 		String joinMode = activityXml.getJoinMode();
 		if(Constants.JOIN_MULTI.equalsIgnoreCase(joinMode) || Constants.JOIN_ALL.equalsIgnoreCase(joinMode))
 			event.getActInstRep().updateTransCtrlIsUse(event.getProcessInstance().getProcessInstId(), activityXml.getId());

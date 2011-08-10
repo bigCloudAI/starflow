@@ -21,7 +21,7 @@ import java.util.List;
 import com.starflow.wf.engine.core.participant.ParticipantMode;
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.model.Participant;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 
 /**
  * 设置固定参与者，通过解析流程定义获取
@@ -31,7 +31,7 @@ import com.starflow.wf.engine.model.elements.ActivityXml;
  */
 public class OrgRoleParticipantMode implements ParticipantMode {
 
-	public List<Participant> creatParticipants(AbstractFlowEvent event, ActivityXml activityXml) {
+	public List<Participant> creatParticipants(AbstractFlowEvent event, ActivityElement activityXml) {
 		List<Participant> participants = activityXml.getParticipants();
 		return participants;
 	}

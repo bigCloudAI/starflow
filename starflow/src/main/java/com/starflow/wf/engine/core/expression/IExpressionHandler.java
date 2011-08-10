@@ -20,7 +20,7 @@ import java.util.Map;
 
 import javax.script.ScriptEngineManager;
 
-import com.starflow.wf.engine.model.elements.TransitionXml;
+import com.starflow.wf.engine.model.elements.TransitionElement;
 
 /**
  * 
@@ -28,5 +28,5 @@ import com.starflow.wf.engine.model.elements.TransitionXml;
  * @version 1.0
  */
 public interface IExpressionHandler {
-	public boolean execute(ScriptEngineManager engineManager, TransitionXml transition, Map<String, Object> conditions);
+	public boolean execute(ScriptEngineManager engineManager, TransitionElement transition, Map<String, Object> conditions);
 }

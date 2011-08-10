@@ -33,7 +33,7 @@ import com.starflow.wf.engine.model.Participant;
 import com.starflow.wf.engine.model.ProcessDefine;
 import com.starflow.wf.engine.model.ProcessInstance;
 import com.starflow.wf.engine.model.WorkItem;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 import com.starflow.wf.engine.repository.IActivityInstRepository;
 import com.starflow.wf.engine.repository.IProcessDefineRepository;
 import com.starflow.wf.engine.repository.IProcessInstanceRepository;
@@ -89,7 +89,7 @@ public class WorkItemService implements IWorkItemService {
 		
 		final ProcessInstance processInstance = this.procInstRep.findProcessInstance(workItem.getProcessInstId());
 		final ProcessDefine processDefine = this.procDefRep.findProcessDefine(processInstance.getProcessDefId());
-		final ActivityXml activityXml = processDefine.getProcessObject().getActivitys().get(activityInst.getActivityDefId()); 
+		final ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityInst.getActivityDefId()); 
 		
 		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 			@Override

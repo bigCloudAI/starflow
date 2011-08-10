@@ -18,7 +18,7 @@ package com.starflow.wf.engine.core.activity;
 
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.model.ActivityInst;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 
 /**
  * 
@@ -33,7 +33,7 @@ public interface ActivityType {
 	 * @param activityXml
 	 * @return
 	 */
-	public ActivityInst createActivity(AbstractFlowEvent event, ActivityXml activityXml);
+	public ActivityInst createActivity(AbstractFlowEvent event, ActivityElement activityXml);
 	
 	/**
 	 * 如果当前环节设置为多工作项模式，结束当前环节时，判断是够可以结束当前环节
@@ -44,5 +44,5 @@ public interface ActivityType {
 	 * @param activityXml
 	 * @return 
 	 */
-	public boolean isCompleteActivity(AbstractFlowEvent event, ActivityXml activityXml);
+	public boolean isCompleteActivity(AbstractFlowEvent event, ActivityElement activityXml);
 }

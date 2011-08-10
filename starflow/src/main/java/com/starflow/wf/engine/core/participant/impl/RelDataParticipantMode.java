@@ -23,7 +23,7 @@ import com.starflow.wf.engine.core.data.RelaDataManager;
 import com.starflow.wf.engine.core.participant.ParticipantMode;
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.model.Participant;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 
 /**
  * 从相关数据区获取流程参与者
@@ -33,7 +33,7 @@ import com.starflow.wf.engine.model.elements.ActivityXml;
  */
 public class RelDataParticipantMode implements ParticipantMode {
 
-	public List<Participant> creatParticipants(AbstractFlowEvent event, ActivityXml activityXml) {
+	public List<Participant> creatParticipants(AbstractFlowEvent event, ActivityElement activityXml) {
 		RelaDataManager relaDataManager = RelaDataManagerBuilder.buildRelaDataManager();
 		long processInstId = event.getProcessInstance().getProcessInstId();
 		String activityDefId = event.getPreActivityXml().getId();

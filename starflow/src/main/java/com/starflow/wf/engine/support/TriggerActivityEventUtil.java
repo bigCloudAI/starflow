@@ -32,8 +32,8 @@ import com.starflow.wf.engine.ProcessEngine;
 import com.starflow.wf.engine.ProcessEngineException;
 import com.starflow.wf.engine.core.Constants;
 import com.starflow.wf.engine.model.ActivityInst;
-import com.starflow.wf.engine.model.elements.ActivityXml;
-import com.starflow.wf.engine.model.elements.EventXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
+import com.starflow.wf.engine.model.elements.EventElement;
 import com.starflow.wf.service.spi.IActivityTriggerEvent;
 
 /**
@@ -53,13 +53,13 @@ public class TriggerActivityEventUtil {
 	 * @param activityInst
 	 * @param triggerEvents
 	 */
-	public static void beforeStart(ProcessEngine processEngine, ActivityXml activityXml, ActivityInst activityInst, List<EventXml> triggerEvents) {
-		for(final EventXml eventXml : triggerEvents) {
+	public static void beforeStart(ProcessEngine processEngine, ActivityElement activityXml, ActivityInst activityInst, List<EventElement> triggerEvents) {
+		for(final EventElement eventXml : triggerEvents) {
 			if(TriggerEventType.BEFORE_START_ACT.equals(eventXml.getEventType())) {
 				action(processEngine, activityXml, activityInst, eventXml, new IAction() {
 					
 					@Override
-					public void execute(ActivityXml activityXml, ActivityInst activityInst) {
+					public void execute(ActivityElement activityXml, ActivityInst activityInst) {
 						IActivityTriggerEvent activityTriggerEvent = 
 							(IActivityTriggerEvent)ApplicationContextHolder.getBean(eventXml.getAction());
 						activityTriggerEvent.beforeStart(activityInst.getProcessInstId(), activityXml.getId());
@@ -77,13 +77,13 @@ public class TriggerActivityEventUtil {
 	 * @param activityInst
 	 * @param triggerEvents
 	 */
-	public static void afterStart(ProcessEngine processEngine, ActivityXml activityXml, ActivityInst activityInst, List<EventXml> triggerEvents) {
-		for(final EventXml eventXml : triggerEvents) {
+	public static void afterStart(ProcessEngine processEngine, ActivityElement activityXml, ActivityInst activityInst, List<EventElement> triggerEvents) {
+		for(final EventElement eventXml : triggerEvents) {
 			if(TriggerEventType.AFTER_START_ACT.equals(eventXml.getEventType())) {
 				action(processEngine, activityXml, activityInst, eventXml, new IAction() {
 					
 					@Override
-					public void execute(ActivityXml activityXml, ActivityInst activityInst) {
+					public void execute(ActivityElement activityXml, ActivityInst activityInst) {
 						IActivityTriggerEvent activityTriggerEvent = 
 							(IActivityTriggerEvent)ApplicationContextHolder.getBean(eventXml.getAction());
 						activityTriggerEvent.afterStart(activityInst.getProcessInstId(), activityInst.getActivityInstId());
@@ -101,13 +101,13 @@ public class TriggerActivityEventUtil {
 	 * @param activityInst
 	 * @param triggerEvents
 	 */
-	public static void beforeComplete(ProcessEngine processEngine, ActivityXml activityXml, ActivityInst activityInst, List<EventXml> triggerEvents) {
-		for(final EventXml eventXml : triggerEvents) {
+	public static void beforeComplete(ProcessEngine processEngine, ActivityElement activityXml, ActivityInst activityInst, List<EventElement> triggerEvents) {
+		for(final EventElement eventXml : triggerEvents) {
 			if(TriggerEventType.BEFORE_COMPLETE_ACT.equals(eventXml.getEventType())) {
 				action(processEngine, activityXml, activityInst, eventXml, new IAction() {
 					
 					@Override
-					public void execute(ActivityXml activityXml, ActivityInst activityInst) {
+					public void execute(ActivityElement activityXml, ActivityInst activityInst) {
 						IActivityTriggerEvent activityTriggerEvent = 
 							(IActivityTriggerEvent)ApplicationContextHolder.getBean(eventXml.getAction());
 						activityTriggerEvent.beforeComplete(activityInst.getProcessInstId(), activityInst.getActivityInstId());
@@ -125,13 +125,13 @@ public class TriggerActivityEventUtil {
 	 * @param activityInst
 	 * @param triggerEvents
 	 */
-	public static void afterComplete(ProcessEngine processEngine, ActivityXml activityXml, ActivityInst activityInst, List<EventXml> triggerEvents) {
-		for(final EventXml eventXml : triggerEvents) {
+	public static void afterComplete(ProcessEngine processEngine, ActivityElement activityXml, ActivityInst activityInst, List<EventElement> triggerEvents) {
+		for(final EventElement eventXml : triggerEvents) {
 			if(TriggerEventType.AFTER_COMPLETE_ACT.equals(eventXml.getEventType())) {
 				action(processEngine, activityXml, activityInst, eventXml, new IAction() {
 					
 					@Override
-					public void execute(ActivityXml activityXml, ActivityInst activityInst) {
+					public void execute(ActivityElement activityXml, ActivityInst activityInst) {
 						IActivityTriggerEvent activityTriggerEvent = 
 							(IActivityTriggerEvent)ApplicationContextHolder.getBean(eventXml.getAction());
 						activityTriggerEvent.afterComplete(activityInst.getProcessInstId(), activityInst.getActivityInstId());
@@ -155,8 +155,8 @@ public class TriggerActivityEventUtil {
 	 * @param eventXml
 	 * @param action
 	 */
-	private static void action(ProcessEngine processEngine, final ActivityXml activityXml, final ActivityInst activityInst, 
-			EventXml eventXml, final IAction action) {
+	private static void action(ProcessEngine processEngine, final ActivityElement activityXml, final ActivityInst activityInst, 
+			EventElement eventXml, final IAction action) {
 		String invokePattern = eventXml.getInvokePattern();
 		final String transactionType = eventXml.getTransactionType();
 		
@@ -198,7 +198,7 @@ public class TriggerActivityEventUtil {
 	 * @param e
 	 * @param eventXml
 	 */
-	private static void handleException(Exception e, EventXml eventXml) {
+	private static void handleException(Exception e, EventElement eventXml) {
 		String exceptionStrategy = eventXml.getExceptionStrategy();
 		
 		if(Constants.ACT_EXCEPTIONSTRATEGY_ROLLBACK.equals(exceptionStrategy))
@@ -216,7 +216,7 @@ public class TriggerActivityEventUtil {
 	 * @param action
 	 * @return
 	 */
-	private static void executeLogicInNewTransaction(ActivityXml activityXml, ActivityInst activityInst, IAction action) {
+	private static void executeLogicInNewTransaction(ActivityElement activityXml, ActivityInst activityInst, IAction action) {
 		PlatformTransactionManager txManager = ApplicationContextHolder.getBean(PlatformTransactionManager.class);
 		DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
 		definition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
@@ -231,6 +231,6 @@ public class TriggerActivityEventUtil {
 	}
 	
 	private static interface IAction {
-		public void execute(ActivityXml activityXml, ActivityInst activityInst);
+		public void execute(ActivityElement activityXml, ActivityInst activityInst);
 	}
 }

@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.model.Participant;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 
 /**
  * 
@@ -28,5 +28,5 @@ import com.starflow.wf.engine.model.elements.ActivityXml;
  * @version 1.0
  */
 public interface ParticipantMode {
-	public List<Participant> creatParticipants(AbstractFlowEvent event, ActivityXml activityXml);
+	public List<Participant> creatParticipants(AbstractFlowEvent event, ActivityElement activityXml);
 }

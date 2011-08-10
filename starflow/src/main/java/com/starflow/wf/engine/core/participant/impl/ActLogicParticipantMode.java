@@ -27,7 +27,7 @@ import com.starflow.wf.engine.core.participant.ParticipantMode;
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.model.Participant;
 import com.starflow.wf.engine.model.ProcessInstance;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 import com.starflow.wf.service.spi.IParticipantService;
 
 /**
@@ -39,7 +39,7 @@ public class ActLogicParticipantMode implements ParticipantMode {
 
 	@SuppressWarnings("unchecked")
 	public List<Participant> creatParticipants(AbstractFlowEvent event,
-			ActivityXml activityXml) {
+			ActivityElement activityXml) {
 		ProcessInstance cloneProcessInstance = new ProcessInstance();
 		BeanUtils.copyProperties(event.getProcessInstance(), cloneProcessInstance);
 		String beanName = activityXml.getParticiLogic();

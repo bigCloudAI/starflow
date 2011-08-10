@@ -27,9 +27,9 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import com.starflow.wf.engine.core.Constants;
-import com.starflow.wf.engine.model.elements.ActivityXml;
-import com.starflow.wf.engine.model.elements.ProcessXml;
-import com.starflow.wf.engine.model.elements.TransitionXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
+import com.starflow.wf.engine.model.elements.ProcessElement;
+import com.starflow.wf.engine.model.elements.TransitionElement;
 
 /**
  * 把流程定义信息解析为java对象
@@ -49,8 +49,8 @@ public class ProcessDefineParser {
 		return document;
 	}
 	
-	public static ProcessXml createProcessXml(String xml) {
-		ProcessXml processXml = new ProcessXml();
+	public static ProcessElement createProcessXml(String xml) {
+		ProcessElement processXml = new ProcessElement();
 		Document document = createDocument(xml);
 		queryProcessXmlInfo(processXml, document);
 		processXml.setTransitions(queryTransitionXmlInfo(document));
@@ -58,7 +58,7 @@ public class ProcessDefineParser {
 		return processXml;
 	}
 	
-	private static void queryProcessXmlInfo(ProcessXml processXml, Document document) {
+	private static void queryProcessXmlInfo(ProcessElement processXml, Document document) {
 		Element rootElement = document.getRootElement();
 		String name = rootElement.attributeValue(StarFlowNames.FLOW_ATTR_NAME);
 		String chname = rootElement.attributeValue(StarFlowNames.FLOW_ATTR_CHNAME);
@@ -86,15 +86,15 @@ public class ProcessDefineParser {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static Map<String, ActivityXml> queryActivityXmlInfo(ProcessXml processXml, Document document) {
-		Map<String, ActivityXml> aMap = new ConcurrentHashMap<String, ActivityXml>();
+	private static Map<String, ActivityElement> queryActivityXmlInfo(ProcessElement processXml, Document document) {
+		Map<String, ActivityElement> aMap = new ConcurrentHashMap<String, ActivityElement>();
 		
 		List<Element> actEls = null;
 		String _xpath = "/ProcessDefine/Activitys/Activity";
 		actEls = document.selectNodes(_xpath);
 		
 		for(Element actEl : actEls) {
-			ActivityXml activityXml = new ActivityXml();
+			ActivityElement activityXml = new ActivityElement();
 			String id = NodeUtil.getNodeAttrValue(actEl, StarFlowNames.ACT_ATTR_ID);
 			activityXml.setId(id);
 			String type = NodeUtil.getNodeAttrValue(actEl, StarFlowNames.ACT_ATTR_TYPE);
@@ -161,7 +161,7 @@ public class ProcessDefineParser {
 				
 			}
 			
-			for(TransitionXml transitionXml : processXml.getTransitions()) {
+			for(TransitionElement transitionXml : processXml.getTransitions()) {
 				if(transitionXml.getTo().equalsIgnoreCase(id))
 					activityXml.getBeforeTrans().add(transitionXml);
 				if(transitionXml.getFrom().equalsIgnoreCase(id))
@@ -177,14 +177,14 @@ public class ProcessDefineParser {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static List<TransitionXml> queryTransitionXmlInfo(Document document) {
-		List<TransitionXml> transitions = new CopyOnWriteArrayList<TransitionXml>();
+	private static List<TransitionElement> queryTransitionXmlInfo(Document document) {
+		List<TransitionElement> transitions = new CopyOnWriteArrayList<TransitionElement>();
 		List<Element> tranEls = null;
 		String _xpath = "/ProcessDefine/Transitions/Transition";
 		tranEls = document.selectNodes(_xpath);
 		
 		for(Element tranEl : tranEls) {
-			TransitionXml transitionXml = new TransitionXml();
+			TransitionElement transitionXml = new TransitionElement();
 			transitionXml.setId(NodeUtil.getNodeAttrValue(tranEl, StarFlowNames.TRAN_ATTR_ID));
 			transitionXml.setName(NodeUtil.getNodeAttrValue(tranEl, StarFlowNames.TRAN_ATTR_NAME));
 			transitionXml.setFrom(NodeUtil.getNodeAttrValue(tranEl, StarFlowNames.TRAN_ATTR_FROM));

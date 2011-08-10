@@ -27,8 +27,8 @@ import com.starflow.wf.engine.core.activity.ActivityType;
 import com.starflow.wf.engine.event.ActivityFinishEvent;
 import com.starflow.wf.engine.event.support.EventUtil;
 import com.starflow.wf.engine.model.ActivityInst;
-import com.starflow.wf.engine.model.elements.ActivityXml;
-import com.starflow.wf.engine.model.elements.ProcessXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
+import com.starflow.wf.engine.model.elements.ProcessElement;
 import com.starflow.wf.engine.support.TriggerActivityEventUtil;
 import com.starflow.wf.service.filter.ProcessFilter;
 
@@ -52,8 +52,8 @@ public class ActivityFinishListener extends AbstractProcessListener {
 		activityInst.setCurrentState(StarFlowState.ACT_INST_COMPLETED);
 		activityInst.setEndTime(nowDate);
 		
-		ProcessXml processXml = event.getProcessXml();
-		ActivityXml activityXml = processXml.getActivitys().get(activityInst.getActivityDefId());
+		ProcessElement processXml = event.getProcessXml();
+		ActivityElement activityXml = processXml.getActivitys().get(activityInst.getActivityDefId());
 		String actType = activityXml.getType();
 		
 		//判断当前环节是否可以结束
@@ -105,7 +105,7 @@ public class ActivityFinishListener extends AbstractProcessListener {
 	 * @param event
 	 * @return
 	 */
-	private boolean isCompleteActivity(ActivityXml activityXml, ActivityFinishEvent event) {
+	private boolean isCompleteActivity(ActivityElement activityXml, ActivityFinishEvent event) {
 		boolean completeFlag = false;
 		if(Constants.ACT_TYPE_MANUL.equalsIgnoreCase(activityXml.getType())) {
 			String mode = activityXml.getWiMode();

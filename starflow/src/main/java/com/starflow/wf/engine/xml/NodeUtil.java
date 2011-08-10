@@ -28,9 +28,9 @@ import org.dom4j.Node;
 import org.springframework.util.StringUtils;
 
 import com.starflow.wf.engine.model.Participant;
-import com.starflow.wf.engine.model.elements.EventXml;
-import com.starflow.wf.engine.model.elements.FreeActXml;
-import com.starflow.wf.engine.model.elements.OperationXml;
+import com.starflow.wf.engine.model.elements.EventElement;
+import com.starflow.wf.engine.model.elements.FreeActElement;
+import com.starflow.wf.engine.model.elements.OperationElement;
 
 /**
  * 
@@ -136,13 +136,13 @@ public class NodeUtil {
 	 * 获取环节操作信息
 	 */
 	@SuppressWarnings("rawtypes")
-	public static List<OperationXml> getOperations(Element actEl) {
-		List<OperationXml> operationXmls = new LinkedList<OperationXml>();
+	public static List<OperationElement> getOperations(Element actEl) {
+		List<OperationElement> operationXmls = new LinkedList<OperationElement>();
 		List list = actEl.selectNodes(StarFlowNames.ACT_OPERATION);
 		Iterator iter=list.iterator();
         while(iter.hasNext()){
             Element el = (Element)iter.next();
-            OperationXml opXml = new OperationXml();
+            OperationElement opXml = new OperationElement();
             opXml.setId(el.attributeValue(StarFlowNames.ACT_OPERATION_ID));
             opXml.setName(el.attributeValue(StarFlowNames.ACT_OPERATION_NAME));
             opXml.setCode(el.attributeValue(StarFlowNames.ACT_OPERATION_CODE));
@@ -156,13 +156,13 @@ public class NodeUtil {
 	 * 获取触发事件信息
 	 */
 	@SuppressWarnings("rawtypes")
-	public static List<EventXml> getTriggerEvents(Element actEl) {
-		List<EventXml> events = new LinkedList<EventXml>();
+	public static List<EventElement> getTriggerEvents(Element actEl) {
+		List<EventElement> events = new LinkedList<EventElement>();
 		List list = actEl.selectNodes("TriggerEvents/event");
 		Iterator iter=list.iterator();
         while(iter.hasNext()){
             Element el = (Element)iter.next();
-            EventXml event = new EventXml();
+            EventElement event = new EventElement();
             event.setEventType(el.attributeValue("eventType"));
             event.setAction(el.attributeValue("action"));
             event.setInvokePattern(el.attributeValue("invokePattern"));
@@ -177,13 +177,13 @@ public class NodeUtil {
 	 * 在指定活动列表范围内自由---指定的下一步环节
 	 */
 	@SuppressWarnings("rawtypes")
-	public static List<FreeActXml> getActFreeActs(Element actEl) {
-		List<FreeActXml> events = new CopyOnWriteArrayList<FreeActXml>();
+	public static List<FreeActElement> getActFreeActs(Element actEl) {
+		List<FreeActElement> events = new CopyOnWriteArrayList<FreeActElement>();
 		List list = actEl.selectNodes(StarFlowNames.ACT_FREE_ACT);
 		Iterator iter=list.iterator();
         while(iter.hasNext()){
             Element el = (Element)iter.next();
-            FreeActXml e = new FreeActXml();
+            FreeActElement e = new FreeActElement();
             e.setId(el.attributeValue(StarFlowNames.ACT_FREE_ACT_ID));
             e.setName(el.attributeValue(StarFlowNames.ACT_FREE_ACT_NAME));
             e.setType(el.attributeValue(StarFlowNames.ACT_FREE_ACT_TYPE));

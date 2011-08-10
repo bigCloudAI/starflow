@@ -30,7 +30,7 @@ import com.starflow.wf.engine.event.ActivityStartEvent;
 import com.starflow.wf.engine.handle.BaseHandle;
 import com.starflow.wf.engine.model.ActivityInst;
 import com.starflow.wf.engine.model.ProcessInstance;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 import com.starflow.wf.service.spi.IToolAppAction;
 
 /**
@@ -42,7 +42,7 @@ import com.starflow.wf.service.spi.IToolAppAction;
 public class ToolAppHandle extends BaseHandle {
 
 	public void action(final ActivityStartEvent event, final ActivityInst activityInst) {
-		ActivityXml activityXml = event.getProcessXml().getActivitys().get(activityInst.getActivityDefId());
+		ActivityElement activityXml = event.getProcessXml().getActivitys().get(activityInst.getActivityDefId());
 		String beanName = activityXml.getExecuteAction();
 		if(StringUtils.hasText(beanName)) {
 			IAction action = new Action(beanName); 
@@ -52,7 +52,7 @@ public class ToolAppHandle extends BaseHandle {
 		}
 	}
 	
-	protected void saveResultRelaData(ActivityStartEvent event, Object result, ActivityXml activityXml) {
+	protected void saveResultRelaData(ActivityStartEvent event, Object result, ActivityElement activityXml) {
 		//执行结果放入相关数据区。
 		if(result != null) {
 			RelaDataManager relaDataManager = RelaDataManagerBuilder.buildRelaDataManager();

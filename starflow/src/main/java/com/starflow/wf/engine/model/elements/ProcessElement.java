@@ -27,15 +27,15 @@ import java.util.Map;
  * @version 1.0
  */
 @SuppressWarnings("serial")
-public class ProcessXml implements Serializable {
+public class ProcessElement implements Serializable {
 	private String name;
 	private String version;
 	private String chname;
 	private long limitTime;
 	private String description;
-	private List<EventXml> events;
-	private Map<String, ActivityXml> activitys;
-	private List<TransitionXml> transitions;
+	private List<EventElement> events;
+	private Map<String, ActivityElement> activitys;
+	private List<TransitionElement> transitions;
 	private Map<String, String> properties = new HashMap<String, String>();
 	public String getName() {
 		return name;
@@ -67,22 +67,22 @@ public class ProcessXml implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Map<String, ActivityXml> getActivitys() {
+	public Map<String, ActivityElement> getActivitys() {
 		return activitys;
 	}
-	public void setActivitys(Map<String, ActivityXml> activitys) {
+	public void setActivitys(Map<String, ActivityElement> activitys) {
 		this.activitys = activitys;
 	}
-	public List<TransitionXml> getTransitions() {
+	public List<TransitionElement> getTransitions() {
 		return transitions;
 	}
-	public void setTransitions(List<TransitionXml> transitions) {
+	public void setTransitions(List<TransitionElement> transitions) {
 		this.transitions = transitions;
 	}
-	public List<EventXml> getEvents() {
+	public List<EventElement> getEvents() {
 		return events;
 	}
-	public void setEvents(List<EventXml> events) {
+	public void setEvents(List<EventElement> events) {
 		this.events = events;
 	}
 	public Map<String, String> getProperties() {

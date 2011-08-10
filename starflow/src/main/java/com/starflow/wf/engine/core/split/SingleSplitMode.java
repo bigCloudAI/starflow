@@ -26,7 +26,7 @@ import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.event.support.ActivityStartRuleUtil;
 import com.starflow.wf.engine.event.support.EventUtil;
 import com.starflow.wf.engine.model.ActivityInst;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 import com.starflow.wf.service.filter.ProcessFilter;
 import com.starflow.wf.service.filter.TransCtrlFilter;
 
@@ -38,14 +38,14 @@ import com.starflow.wf.service.filter.TransCtrlFilter;
  */
 public class SingleSplitMode extends AbstractSplitMode {
 	
-	public List<ActivityInst> createNextActInsts(AbstractFlowEvent event, List<ActivityXml> activityXmls) {
+	public List<ActivityInst> createNextActInsts(AbstractFlowEvent event, List<ActivityElement> activityXmls) {
 		List<ActivityInst> actInsts = new ArrayList<ActivityInst>();
 		
 		if(activityXmls.size()<1)
 			throw new ProcessEngineException("没有满足条件的分支节点，无法创建下一环节");
 		
 		//单一分支，只取第一个满足条件的分支环节
-		ActivityXml activityXml = activityXmls.get(0);
+		ActivityElement activityXml = activityXmls.get(0);
 		String actType = activityXml.getType();
 		ActivityType type = ActivityTypeFactory.buildActivityType(actType);
 		

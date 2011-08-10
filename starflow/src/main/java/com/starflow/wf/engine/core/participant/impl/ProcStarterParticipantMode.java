@@ -23,7 +23,7 @@ import com.starflow.wf.engine.core.Constants;
 import com.starflow.wf.engine.core.participant.ParticipantMode;
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.model.Participant;
-import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
 
 /**
  * 环节参与者与流程启动者相同
@@ -33,7 +33,7 @@ import com.starflow.wf.engine.model.elements.ActivityXml;
  */
 public class ProcStarterParticipantMode implements ParticipantMode{
 
-	public List<Participant> creatParticipants(AbstractFlowEvent event, ActivityXml activityXml) {
+	public List<Participant> creatParticipants(AbstractFlowEvent event, ActivityElement activityXml) {
 		String userid = event.getProcessInstance().getCreator();
 		Participant participant = new Participant();
 		participant.setParticipant(userid);

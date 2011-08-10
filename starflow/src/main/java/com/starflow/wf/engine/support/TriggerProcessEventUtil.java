@@ -33,7 +33,7 @@ import com.starflow.wf.engine.ProcessEngineException;
 import com.starflow.wf.engine.core.Constants;
 import com.starflow.wf.engine.model.ProcessDefine;
 import com.starflow.wf.engine.model.ProcessInstance;
-import com.starflow.wf.engine.model.elements.EventXml;
+import com.starflow.wf.engine.model.elements.EventElement;
 import com.starflow.wf.service.spi.IProcessTriggerEvent;
 
 /**
@@ -53,8 +53,8 @@ public class TriggerProcessEventUtil {
 	 * @param triggerEvents
 	 */
 	public static void beforeStart(ProcessEngine processEngine, ProcessDefine processDefine, 
-			ProcessInstance processInstance, List<EventXml> triggerEvents) {
-		for(final EventXml eventXml : triggerEvents) {
+			ProcessInstance processInstance, List<EventElement> triggerEvents) {
+		for(final EventElement eventXml : triggerEvents) {
 			if(TriggerEventType.BEFORE_START_PROC.equals(eventXml.getEventType())) {
 				action(processEngine, processDefine, processInstance, eventXml, new IAction() {
 					
@@ -77,8 +77,8 @@ public class TriggerProcessEventUtil {
 	 * @param triggerEvents
 	 */
 	public static void afterStart(ProcessEngine processEngine, ProcessDefine processDefine, 
-			ProcessInstance processInstance, List<EventXml> triggerEvents) {
-		for(final EventXml eventXml : triggerEvents) {
+			ProcessInstance processInstance, List<EventElement> triggerEvents) {
+		for(final EventElement eventXml : triggerEvents) {
 			if(TriggerEventType.AFTER_START_PROC.equals(eventXml.getEventType())) {
 				action(processEngine, processDefine, processInstance, eventXml, new IAction() {
 					
@@ -101,8 +101,8 @@ public class TriggerProcessEventUtil {
 	 * @param triggerEvents
 	 */
 	public static void beforeComplete(ProcessEngine processEngine, ProcessDefine processDefine, 
-			ProcessInstance processInstance, List<EventXml> triggerEvents) {
-		for(final EventXml eventXml : triggerEvents) {
+			ProcessInstance processInstance, List<EventElement> triggerEvents) {
+		for(final EventElement eventXml : triggerEvents) {
 			if(TriggerEventType.BEFORE_COMPLETE_PROC.equals(eventXml.getEventType())) {
 				action(processEngine, processDefine, processInstance, eventXml, new IAction() {
 					
@@ -125,8 +125,8 @@ public class TriggerProcessEventUtil {
 	 * @param triggerEvents
 	 */
 	public static void afterComplete(ProcessEngine processEngine, ProcessDefine processDefine, 
-			ProcessInstance processInstance, List<EventXml> triggerEvents) {
-		for(final EventXml eventXml : triggerEvents) {
+			ProcessInstance processInstance, List<EventElement> triggerEvents) {
+		for(final EventElement eventXml : triggerEvents) {
 			if(TriggerEventType.AFTER_COMPLETE_PROC.equals(eventXml.getEventType())) {
 				action(processEngine, processDefine, processInstance, eventXml, new IAction() {
 					
@@ -155,7 +155,7 @@ public class TriggerProcessEventUtil {
 	 * @param action
 	 */
 	private static void action(ProcessEngine processEngine, final ProcessDefine processDefine, 
-			final ProcessInstance processInstance, EventXml eventXml, final IAction action) {
+			final ProcessInstance processInstance, EventElement eventXml, final IAction action) {
 		String invokePattern = eventXml.getInvokePattern();
 		final String transactionType = eventXml.getTransactionType();
 		
@@ -196,7 +196,7 @@ public class TriggerProcessEventUtil {
 	 * @param e
 	 * @param eventXml
 	 */
-	private static void handleException(Exception e, EventXml eventXml) {
+	private static void handleException(Exception e, EventElement eventXml) {
 		String exceptionStrategy = eventXml.getExceptionStrategy();
 		
 		if(Constants.ACT_EXCEPTIONSTRATEGY_ROLLBACK.equals(exceptionStrategy))

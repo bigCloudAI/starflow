@@ -27,8 +27,8 @@ import com.starflow.wf.engine.event.ProcessStartEvent;
 import com.starflow.wf.engine.event.support.EventUtil;
 import com.starflow.wf.engine.model.ActivityInst;
 import com.starflow.wf.engine.model.ProcessInstance;
-import com.starflow.wf.engine.model.elements.ActivityXml;
-import com.starflow.wf.engine.model.elements.ProcessXml;
+import com.starflow.wf.engine.model.elements.ActivityElement;
+import com.starflow.wf.engine.model.elements.ProcessElement;
 import com.starflow.wf.engine.support.TriggerProcessEventUtil;
 import com.starflow.wf.engine.xml.StarFlowNames;
 import com.starflow.wf.service.filter.ProcessFilter;
@@ -45,7 +45,7 @@ public class ProcessStartListener extends AbstractProcessListener {
 	public void processStart(ProcessStartEvent event) {
 		ProcessInstance processInstance = event.getProcessInstance();
 		ProcessEngine processEngine = event.getProcessEngine();
-		ProcessXml processXml = event.getProcessXml();
+		ProcessElement processXml = event.getProcessXml();
 		
 		//设置流程实例为运行状态
 		event.getProcInstFacade().updateProcessStateAndStartTime(processInstance.getProcessInstId(), 
@@ -61,7 +61,7 @@ public class ProcessStartListener extends AbstractProcessListener {
 				processXml.getEvents());
 		
 		StartActivityType type = (StartActivityType)ActivityTypeFactory.buildActivityType(Constants.ACT_TYPE_START);
-		ActivityXml activityXml = processXml.getActivitys().get(StarFlowNames.ACT_START_ID);
+		ActivityElement activityXml = processXml.getActivitys().get(StarFlowNames.ACT_START_ID);
 		ActivityInst activityInst = type.createActivity(event, activityXml);
 		
 		EventUtil.publishActivityStartEvent(event, activityInst, activityXml);

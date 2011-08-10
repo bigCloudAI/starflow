@@ -18,7 +18,7 @@ package com.starflow.wf.engine.service;
 
 import java.util.List;
 
-import com.starflow.wf.engine.model.elements.FreeActXml;
+import com.starflow.wf.engine.model.elements.FreeActElement;
 
 /**
  * 
@@ -43,6 +43,6 @@ public interface IFreeFlowService {
 	 * @param activityDefId
 	 * @return 
 	 */
-	public List<FreeActXml> queryPossibleNextActsOfFreeActivity(long processDefId, String activityDefId);
+	public List<FreeActElement> queryPossibleNextActsOfFreeActivity(long processDefId, String activityDefId);
 
 }

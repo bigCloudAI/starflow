@@ -26,7 +26,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.starflow.wf.engine.model.ProcessDefine;
-import com.starflow.wf.engine.model.elements.ProcessXml;
+import com.starflow.wf.engine.model.elements.ProcessElement;
 import com.starflow.wf.engine.repository.IProcessDefineRepository;
 import com.starflow.wf.engine.xml.ProcessDefineParser;
 
@@ -98,7 +98,7 @@ public class ProcessDefineRepositoryImpl extends JdbcDaoSupport implements IProc
 		if(processDefine == null || processDefine.getProcessObject() == null) {
 			processDefine = this.getJdbcTemplate().queryForObject(findProcessDefineSQL, new ProcessDefineRowMapper(), processDefId);
 			
-			ProcessXml processXml = ProcessDefineParser.createProcessXml(processDefine.getProcessDefContent());
+			ProcessElement processXml = ProcessDefineParser.createProcessXml(processDefine.getProcessDefContent());
 			processDefine.setProcessObject(processXml);
 			cache.put("prodef-" + processDefine.getProcessDefId(), processDefine);
 		}
@@ -110,7 +110,7 @@ public class ProcessDefineRepositoryImpl extends JdbcDaoSupport implements IProc
 		if(processDefine == null) {
 			processDefine = this.getJdbcTemplate().queryForObject(findPublishProcessDefineSQL, new ProcessDefineRowMapper(), processDefName);
 			
-			ProcessXml processXml = ProcessDefineParser.createProcessXml(processDefine.getProcessDefContent());
+			ProcessElement processXml = ProcessDefineParser.createProcessXml(processDefine.getProcessDefContent());
 			processDefine.setProcessObject(processXml);
 			cache.put("prodef-" + processDefine.getProcessDefId(), processDefine);
 			cache.put("prodef-" + processDefine.getProcessDefName(), processDefine);
