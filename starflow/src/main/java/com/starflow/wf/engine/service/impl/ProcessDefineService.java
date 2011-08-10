@@ -1,0 +1,226 @@
+/*
+ * Copyright 2010-2011 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.starflow.wf.engine.service.impl;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.util.Assert;
+import org.springframework.util.ResourceUtils;
+
+import com.starflow.wf.core.key.Keys;
+import com.starflow.wf.core.util.PrimaryKeyUtil;
+import com.starflow.wf.engine.ProcessEngine;
+import com.starflow.wf.engine.ProcessEngineException;
+import com.starflow.wf.engine.StarFlowState;
+import com.starflow.wf.engine.model.ProcessDefine;
+import com.starflow.wf.engine.model.elements.ActivityXml;
+import com.starflow.wf.engine.model.elements.OperationXml;
+import com.starflow.wf.engine.model.elements.TransitionXml;
+import com.starflow.wf.engine.repository.IProcessDefineRepository;
+import com.starflow.wf.engine.service.IProcessDefineService;
+import com.starflow.wf.engine.transaction.TransactionCallback;
+import com.starflow.wf.engine.transaction.TransactionCallbackWithoutResult;
+import com.starflow.wf.engine.transaction.TransactionTemplate;
+import com.starflow.wf.engine.xml.Dom4jProcDefParser;
+
+/**
+ * 
+ * @author libinsong1204@gmail.com
+ * @version 1.0
+ */
+public class ProcessDefineService implements IProcessDefineService {
+	
+	private IProcessDefineRepository procDefRep;
+	private TransactionTemplate transactionTemplate;
+	
+
+	public ProcessDefineService(ProcessEngine processEngine) {
+		Assert.notNull(processEngine);
+		
+		this.procDefRep = processEngine.getApplicationContext().getBean(IProcessDefineRepository.class);
+		this.transactionTemplate = processEngine.getTransactionTemplate();
+	}
+
+	public void deployProcessXML(final String processDefContent) {
+		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+			@Override
+			public void doInTransactionWithoutResult(TransactionStatus status) {
+				ProcessDefine processDefine = new ProcessDefine();
+				long id = PrimaryKeyUtil.getPrimaryKey(Keys.PROCESSDEFID);
+				processDefine.setProcessDefId(id);
+				
+				processDefine.setProcessDefContent(processDefContent);
+				Dom4jProcDefParser.parserProcessInfo(processDefine);
+				processDefine.setCreateTime(new Date());
+				processDefine.setCurrentState(StarFlowState.PROCESS_DEF_PUBLISH);
+				
+				procDefRep.inertProcessDefine(processDefine);
+			}
+		});
+	}
+	
+	public void deployProcessFile(String resourceLocation) {
+		try {
+			File file = ResourceUtils.getFile(resourceLocation);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file) {
+				@Override
+				public int read() throws IOException {
+					// TODO Auto-generated method stub
+					return 0;
+				}
+			}));
+			
+			StringBuilder sb = new StringBuilder();
+			
+			String line = null;
+			try {
+				while ((line = reader.readLine()) != null) {
+					sb.append(line + "\n");
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			deployProcessXML(sb.toString());
+		} catch (FileNotFoundException e1) {
+			throw new ProcessEngineException("流程文件没有查找到", e1);
+		}
+	}
+	
+	public void deleteProcessDefine(final long processDefId) {
+		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+			
+			@Override
+			public void doInTransactionWithoutResult(TransactionStatus status) {
+				procDefRep.deleteProcessDefine(processDefId);
+			}
+		});
+	}
+	
+	public void publishProcessDefine(final String processDefName, final long processDefId) {
+		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+			
+			@Override
+			public void doInTransactionWithoutResult(TransactionStatus status) {
+				procDefRep.updateProcessDefineUnPublishStatus(processDefName);
+				procDefRep.updateProcessDefinePublishStatus(processDefId);
+			}
+		});
+	}
+	
+	public Map<String, String> getProcessProperties(final Long processDefId) {
+		return transactionTemplate.execute(new TransactionCallback<Map<String, String>>() {
+
+			@Override
+			public Map<String, String> doInTransaction(TransactionStatus status) {
+				ProcessDefine processDefine = procDefRep.findProcessDefine(processDefId);
+				return processDefine.getProcessObject().getProperties();
+			}
+		});
+	}
+	
+	public Map<String, String> getActivityProperties(final Long processDefId, final String activityDefId) {
+		return transactionTemplate.execute(new TransactionCallback<Map<String, String>>() {
+
+			@Override
+			public Map<String, String> doInTransaction(TransactionStatus status) {
+				ProcessDefine processDefine = procDefRep.findProcessDefine(processDefId);
+				ActivityXml activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
+				return activityXml.getProperties();
+			}
+		});
+	}
+	
+	public List<OperationXml> getActivityOperations(final Long processDefId, final String activityDefId) {
+		return transactionTemplate.execute(new TransactionCallback<List<OperationXml>>() {
+
+			@Override
+			public List<OperationXml> doInTransaction(TransactionStatus status) {
+				ProcessDefine processDefine = procDefRep.findProcessDefine(processDefId);
+				ActivityXml activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
+				return activityXml.getOperations();
+			}
+		});
+	}
+	
+	public String getActivityAction(final Long processDefId, final String activityDefId) {
+		return transactionTemplate.execute(new TransactionCallback<String>() {
+
+			@Override
+			public String doInTransaction(TransactionStatus status) {
+				ProcessDefine processDefine = procDefRep.findProcessDefine(processDefId);
+				ActivityXml activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
+				return activityXml.getAction();
+			}
+		});
+	}
+	
+	public List<ActivityXml> findBeforeActivities(final Long processDefId, final String activityDefId) {
+		return transactionTemplate.execute(new TransactionCallback<List<ActivityXml>>() {
+
+			@Override
+			public List<ActivityXml> doInTransaction(TransactionStatus status) {
+				ProcessDefine processDefine = procDefRep.findProcessDefine(processDefId);
+				ActivityXml activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
+				
+				List<TransitionXml> beforeTrans = activityXml.getBeforeTrans();
+
+				List<ActivityXml> list = new ArrayList<ActivityXml>();
+				for(TransitionXml transitionXml :  beforeTrans) {
+					list.add(processDefine.getProcessObject().getActivitys().get(transitionXml.getFrom()));
+				}
+				
+				return list;
+			}
+		});
+	}
+	
+	public List<ActivityXml> findAfterActivities(final Long processDefId, final String activityDefId) {
+		return transactionTemplate.execute(new TransactionCallback<List<ActivityXml>>() {
+
+			@Override
+			public List<ActivityXml> doInTransaction(TransactionStatus status) {
+				ProcessDefine processDefine = procDefRep.findProcessDefine(processDefId);
+				ActivityXml activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
+				
+				List<TransitionXml> afterTrans = activityXml.getAfterTrans();
+
+				List<ActivityXml> list = new ArrayList<ActivityXml>();
+				for(TransitionXml transitionXml :  afterTrans) {
+					list.add(processDefine.getProcessObject().getActivitys().get(transitionXml.getTo()));
+				}
+				
+				return list;
+			}
+		});
+	}
+}
