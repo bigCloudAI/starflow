@@ -19,6 +19,7 @@ package com.starflow.wf.engine.service;
 import java.util.List;
 import java.util.Map;
 
+import com.starflow.wf.engine.model.ProcessDefine;
 import com.starflow.wf.engine.model.elements.ActivityElement;
 import com.starflow.wf.engine.model.elements.OperationElement;
 
@@ -28,6 +29,44 @@ import com.starflow.wf.engine.model.elements.OperationElement;
  * @version 1.0
  */
 public interface IProcessDefineService {
+	
+	/**
+	 * 保存流程定义
+	 * 
+	 * @param processDefine
+	 */
+	public void insertProcessDefine(ProcessDefine processDefine); 
+	
+	/**
+	 * 更新流程定义
+	 * 
+	 * @param processDefine
+	 */
+	public void updateProcessDefine(ProcessDefine processDefine); 
+	
+	/**
+	 * 查找流程定义数据
+	 * 
+	 * @param processDefId ID
+	 * @return
+	 */
+	public ProcessDefine findProcessDefine(long processDefId);
+	
+	/**
+	 * 查找流程定义数据
+	 * 
+	 * @param processDefName
+	 * @return
+	 */
+	public List<ProcessDefine> findProcessDefines(String processDefName);
+	
+	/**
+	 * 根据流程定义名称和版本号，判断是否唯一
+	 * 
+	 * @param processDefName
+	 * @param versionSign
+	 */
+	public Boolean isUniqueProcessDefine(String processDefName, String versionSign);
 	
 	/**
 	 * 部署流程定义

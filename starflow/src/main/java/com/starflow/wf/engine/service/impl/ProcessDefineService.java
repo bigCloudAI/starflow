@@ -65,6 +65,51 @@ public class ProcessDefineService implements IProcessDefineService {
 		this.procDefRep = processEngine.getApplicationContext().getBean(IProcessDefineRepository.class);
 		this.transactionTemplate = processEngine.getTransactionTemplate();
 	}
+	
+	public void insertProcessDefine(final ProcessDefine processDefine) {
+		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+			
+			@Override
+			public void doInTransactionWithoutResult(TransactionStatus status) {
+				procDefRep.inertProcessDefine(processDefine);
+			}
+		});
+	}
+	
+	public void updateProcessDefine(final ProcessDefine processDefine) {
+		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+			
+			@Override
+			public void doInTransactionWithoutResult(TransactionStatus status) {
+				procDefRep.updateProcessDefine(processDefine);
+			}
+		});
+	}
+	
+	public ProcessDefine findProcessDefine(long processDefId) {
+		return procDefRep.findProcessDefine(processDefId);
+	}
+	
+	public List<ProcessDefine> findProcessDefines(String processDefName) {
+		return procDefRep.findProcessDefines(processDefName);
+	}
+	
+	public Boolean isUniqueProcessDefine(final String processDefName, final String versionSign) {
+		return transactionTemplate.execute(new TransactionCallback<Boolean>() {
+
+			@Override
+			public Boolean doInTransaction(TransactionStatus status) {
+				List<ProcessDefine> list = procDefRep.findProcessDefines(processDefName);
+				for(ProcessDefine processDefine : list) {
+					if(processDefine.getVersionSign().equals(versionSign)) {
+						return false;
+					}
+				}
+				return true;
+			}
+			
+		});
+	}
 
 	public void deployProcessXML(final String processDefContent) {
 		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
@@ -90,13 +135,11 @@ public class ProcessDefineService implements IProcessDefineService {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file) {
 				@Override
 				public int read() throws IOException {
-					// TODO Auto-generated method stub
 					return 0;
 				}
 			}, "UTF-8"));
 			
 			StringBuilder sb = new StringBuilder();
-			
 			String line = null;
 			try {
 				while ((line = reader.readLine()) != null) {
