@@ -14,7 +14,7 @@
 		
     <bean class="com.starflow.wf.core.key.SequenceFactory" init-method="init">
 		<property name="uniqueTableApp">
-			<bean id="uniqueTableApp" class="com.starflow.wf.core.key.impl.DefaultUniqueTableApp">
+			<bean class="com.starflow.wf.core.key.impl.DefaultUniqueTableApp">
 		    	<constructor-arg index="0" ref="dataSource" />
 		    </bean>
 		</property>
