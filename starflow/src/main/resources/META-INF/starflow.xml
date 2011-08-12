@@ -12,11 +12,12 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 		
-	<bean id="uniqueTableApp" class="com.starflow.wf.core.key.impl.DefaultUniqueTableApp">
-    	<constructor-arg index="0" ref="dataSource" />
-    </bean>
     <bean class="com.starflow.wf.core.key.SequenceFactory" init-method="init">
-		<property name="uniqueTableApp" ref="uniqueTableApp" />
+		<property name="uniqueTableApp">
+			<bean id="uniqueTableApp" class="com.starflow.wf.core.key.impl.DefaultUniqueTableApp">
+		    	<constructor-arg index="0" ref="dataSource" />
+		    </bean>
+		</property>
 	</bean>
 	
 	<!-- =================================Dao Part==================================== -->
