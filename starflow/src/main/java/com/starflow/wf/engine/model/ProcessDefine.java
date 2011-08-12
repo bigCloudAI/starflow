@@ -28,12 +28,12 @@ import com.starflow.wf.engine.model.elements.ProcessElement;
  */
 @SuppressWarnings("serial")
 public class ProcessDefine implements Serializable {
-	private Long processDefId;
+	private long processDefId;
 	private String processDefName;
 	private String processCHName;
 	private String description;
 	private int currentState;
-	private Long limitTime;
+	private long limitTime;
 	private String versionSign;
 	private String processDefContent;
 	private Date createTime;
@@ -43,10 +43,10 @@ public class ProcessDefine implements Serializable {
 	
 	private ProcessElement processObject;
 	
-	public Long getProcessDefId() {
+	public long getProcessDefId() {
 		return processDefId;
 	}
-	public void setProcessDefId(Long processDefId) {
+	public void setProcessDefId(long processDefId) {
 		this.processDefId = processDefId;
 	}
 	public String getProcessDefName() {
@@ -79,10 +79,10 @@ public class ProcessDefine implements Serializable {
 	public void setVersionSign(String versionSign) {
 		this.versionSign = versionSign;
 	}
-	public Long getLimitTime() {
+	public long getLimitTime() {
 		return limitTime;
 	}
-	public void setLimitTime(Long limitTime) {
+	public void setLimitTime(long limitTime) {
 		this.limitTime = limitTime;
 	}
 	public String getProcessDefContent() {
