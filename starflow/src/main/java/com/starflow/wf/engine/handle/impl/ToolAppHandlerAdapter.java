@@ -27,7 +27,7 @@ import com.starflow.wf.engine.core.RelaDataManagerBuilder;
 import com.starflow.wf.engine.core.data.RelaDataManager;
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.event.ActivityStartEvent;
-import com.starflow.wf.engine.handle.BaseHandle;
+import com.starflow.wf.engine.handle.BaseHandlerAdapter;
 import com.starflow.wf.engine.model.ActivityInst;
 import com.starflow.wf.engine.model.ProcessInstance;
 import com.starflow.wf.engine.model.elements.ActivityElement;
@@ -39,7 +39,7 @@ import com.starflow.wf.service.spi.IToolAppAction;
  * @author libinsong1204@gmail.com
  * @version 1.0
  */
-public class ToolAppHandle extends BaseHandle {
+public class ToolAppHandlerAdapter extends BaseHandlerAdapter {
 
 	public void action(final ActivityStartEvent event, final ActivityInst activityInst) {
 		ActivityElement activityXml = event.getProcessXml().getActivitys().get(activityInst.getActivityDefId());

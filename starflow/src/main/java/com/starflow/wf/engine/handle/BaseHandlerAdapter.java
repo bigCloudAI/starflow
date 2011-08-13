@@ -45,7 +45,7 @@ import com.starflow.wf.service.spi.IApplicationExecptionAction;
  * @author libinsong1204@gmail.com
  * @version 1.0
  */
-public abstract class BaseHandle implements IHandle {
+public abstract class BaseHandlerAdapter implements IHandlerAdapter {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	/**

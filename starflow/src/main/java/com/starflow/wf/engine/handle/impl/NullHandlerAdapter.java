@@ -17,7 +17,7 @@
 package com.starflow.wf.engine.handle.impl;
 
 import com.starflow.wf.engine.event.ActivityStartEvent;
-import com.starflow.wf.engine.handle.IHandle;
+import com.starflow.wf.engine.handle.IHandlerAdapter;
 import com.starflow.wf.engine.model.ActivityInst;
 
 /**
@@ -25,7 +25,7 @@ import com.starflow.wf.engine.model.ActivityInst;
  * @author libinsong1204@gmail.com
  * @version 1.0
  */
-public class NullHandle implements IHandle {
+public class NullHandlerAdapter implements IHandlerAdapter {
 
 	@Override
 	public void action(ActivityStartEvent event, ActivityInst activityInst) {

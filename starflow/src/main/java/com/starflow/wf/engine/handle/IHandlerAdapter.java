@@ -24,7 +24,7 @@ import com.starflow.wf.engine.model.ActivityInst;
  * @author libinsong1204@gmail.com
  * @version 1.0
  */
-public interface IHandle {
+public interface IHandlerAdapter {
 	/**
 	 * 
 	 * @param event

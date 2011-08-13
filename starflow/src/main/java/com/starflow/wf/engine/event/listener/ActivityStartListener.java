@@ -26,8 +26,8 @@ import com.starflow.wf.engine.core.Constants;
 import com.starflow.wf.engine.event.AbstractFlowEvent;
 import com.starflow.wf.engine.event.ActivityStartEvent;
 import com.starflow.wf.engine.event.support.EventUtil;
-import com.starflow.wf.engine.handle.ActivityHandlerFactory;
-import com.starflow.wf.engine.handle.IHandle;
+import com.starflow.wf.engine.handle.ActivityHandlerAdapterFactory;
+import com.starflow.wf.engine.handle.IHandlerAdapter;
 import com.starflow.wf.engine.handle.InterruptStrategyException;
 import com.starflow.wf.engine.model.ActivityInst;
 import com.starflow.wf.engine.model.ProcessInstance;
@@ -51,7 +51,7 @@ public class ActivityStartListener extends AbstractProcessListener {
 				StarFlowState.ACT_INST_RUNING, new Date());
 		
 		//进入异常状态，等待人工干预，不继续往下运行
-		IHandle handle = ActivityHandlerFactory.buildHandler(activityInst.getActivityType());
+		IHandlerAdapter handle = ActivityHandlerAdapterFactory.buildHandler(activityInst.getActivityType());
 		try {
 			handle.action(event, activityInst);
 		} catch (InterruptStrategyException e) {

@@ -17,20 +17,20 @@
 package com.starflow.wf.engine.handle;
 
 import com.starflow.wf.engine.core.Constants;
-import com.starflow.wf.engine.handle.impl.NullHandle;
-import com.starflow.wf.engine.handle.impl.ToolAppHandle;
+import com.starflow.wf.engine.handle.impl.NullHandlerAdapter;
+import com.starflow.wf.engine.handle.impl.ToolAppHandlerAdapter;
 
 /**
  * 
  * @author libinsong1204@gmail.com
  * @version 1.0
  */
-public class ActivityHandlerFactory {
+public class ActivityHandlerAdapterFactory {
 	
-	public static IHandle buildHandler(String type) {
+	public static IHandlerAdapter buildHandler(String type) {
 		if(Constants.ACT_TYPE_TOOLAPP.equalsIgnoreCase(type))
-			return new ToolAppHandle();
+			return new ToolAppHandlerAdapter();
 		else 
-			return new NullHandle();
+			return new NullHandlerAdapter();
 	}
 }
