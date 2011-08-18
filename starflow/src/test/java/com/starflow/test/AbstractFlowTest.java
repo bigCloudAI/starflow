@@ -24,10 +24,10 @@ import com.starflow.wf.service.filter.TransCtrlFilter;
  * @Date	 2011-8-10 上午11:48:39
  */
 public abstract class AbstractFlowTest {
-	IProcessInstanceService procInstService;
-	IWorkItemService workItemService;
-	IProcessDefineService procDefService;
-	IActivityInstService activityInstService;
+	protected IProcessInstanceService procInstService;
+	protected IWorkItemService workItemService;
+	protected IProcessDefineService procDefService;
+	protected IActivityInstService activityInstService;
 	
 	@Before
 	public void init() {

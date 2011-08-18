@@ -23,6 +23,8 @@ import com.starflow.wf.engine.event.ActivityFinishEvent;
 import com.starflow.wf.engine.event.ProcessFinishEvent;
 import com.starflow.wf.engine.model.ActivityInst;
 import com.starflow.wf.engine.model.ProcessInstance;
+import com.starflow.wf.engine.model.elements.ActivityElement;
+import com.starflow.wf.engine.model.elements.ProcessElement;
 import com.starflow.wf.engine.support.TriggerProcessEventUtil;
 import com.starflow.wf.service.filter.ProcessFilter;
 
@@ -51,18 +53,33 @@ public class ProcessFinishListener extends AbstractProcessListener {
 		TriggerProcessEventUtil.afterComplete(event.getProcessEngine(), null, processInstance, 
 				event.getProcessXml().getEvents());
 		
-		//当前流程实例是否为子流程
+		//判断当前流程是否为子流程。
 		long actInstId = processInstance.getActivityInstId();
-		if(actInstId != 0) {
-			ProcessInstance mainProcess = event.getProcInstFacade().findProcessInstance(processInstance.getParentProcInstId());
-			ActivityInst activityInst = event.getActInstRep().findActivityInst(actInstId);
-			//异步子流程，不再需要发布结束事件
-			if(StarFlowState.ACT_INST_RUNING == activityInst.getCurrentState()) {
-				ActivityFinishEvent endEvent = new ActivityFinishEvent(event.getProcessEngine());
-				endEvent.setProcessInstance(mainProcess);
-				endEvent.setActivityInst(activityInst);
-				event.getProcessEngine().getApplicationContext().publishEvent(endEvent);
-			}
+		if(actInstId != 0)
+			finishSubFlowAct(event, processInstance);
+	}
+
+	/**
+	 * 结束子流程环节
+	 * 
+	 * @param event
+	 * @param processInstance
+	 */
+	private void finishSubFlowAct(ProcessFinishEvent event, ProcessInstance processInstance) {
+		ProcessInstance mainProcess = event.getProcInstFacade().findProcessInstance(processInstance.getParentProcInstId());
+		ActivityInst activityInst = event.getActInstRep().findActivityInst(processInstance.getActivityInstId());
+		//异步子流程，不再需要发布结束事件
+		if(StarFlowState.ACT_INST_RUNING == activityInst.getCurrentState()) {
+			ActivityFinishEvent endEvent = new ActivityFinishEvent(event.getProcessEngine());
+			endEvent.setProcessInstance(mainProcess);
+			endEvent.setActivityInst(activityInst);
+			
+			ProcessElement processXml = event.getProcessXml();
+			ActivityElement activityXml = processXml.getActivitys().get(activityInst.getActivityDefId());
+			
+			endEvent.setPreActivityXml(activityXml);
+			
+			event.getProcessEngine().getApplicationContext().publishEvent(endEvent);
 		}
 	}
 }
