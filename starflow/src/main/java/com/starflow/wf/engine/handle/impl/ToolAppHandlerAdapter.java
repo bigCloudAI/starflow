@@ -79,8 +79,8 @@ public class ToolAppHandlerAdapter extends BaseHandlerAdapter {
 			try {
 				//beanName 名称后面没有指定调用方法时。直接调用IToolAppAction.execute
 				int index = beanName.indexOf("#");
-				IToolAppAction action = ApplicationContextHolder.getBean(beanName, IToolAppAction.class);
 				if(index == -1) {
+					IToolAppAction action = ApplicationContextHolder.getBean(beanName, IToolAppAction.class);
 					return action.execute(cloneProcessInstance, cloneActivityInst);
 				} else {
 					//反射调用bean指定的方法。
@@ -89,8 +89,9 @@ public class ToolAppHandlerAdapter extends BaseHandlerAdapter {
 						throw new ProcessEngineException("IToolAppAction 实现类Bean："+beanName+"，没有指定方法名称");
 					
 					beanName = beanName.substring(0, index);
+					IToolAppAction action = ApplicationContextHolder.getBean(beanName, IToolAppAction.class);
 					try {
-						Method method = action.getClass().getMethod(methodName, long.class, long.class);
+						Method method = action.getClass().getMethod(methodName, ProcessInstance.class, ActivityInst.class);
 						return method.invoke(action, cloneProcessInstance, cloneActivityInst);
 					} catch (Exception e) {
 						throw new ProcessEngineException("IToolAppAction 实现类Bean："+beanName+"，没有此方法", e);

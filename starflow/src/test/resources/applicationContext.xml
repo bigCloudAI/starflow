@@ -26,11 +26,11 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
-	<!-- =================================流程测试配置==================================== 
+	<!-- =================================流程测试配置==================================== -->
 	<bean id="testToolAppAction" class="com.starflow.test.toolApp.action.TestToolAppAction"></bean>
 	<bean id="testToolAppTransactionAction" class="com.starflow.test.toolApp.action.TestToolAppTransactionAction"></bean>
 	<bean id="testActivateRuleAction" class="com.starflow.test.activateRule.action.TestActivateRuleAction"></bean>
-	-->
+	
 	
 	<bean id="testProcessTriggerEvent" class="com.starflow.test.triggerevent.TestProcessTriggerEvent"></bean>
 	<bean id="testActivityTriggerEvent" class="com.starflow.test.triggerevent.TestActivityTriggerEvent"></bean>

@@ -107,8 +107,6 @@ public class EventUtil {
 	 * @param activityXml
 	 */
 	public static void publishActivityStartEvent(AbstractFlowEvent event, ActivityInst activityInst, ActivityElement activityXml) {
-		triggerFilterExecuter(event, activityInst);
-		
 		ActivityStartEvent activityStartEvent = new ActivityStartEvent(event.getProcessEngine());
 		activityStartEvent.setProcessInstance(event.getProcessInstance());
 		activityStartEvent.setActivityInst(activityInst);
@@ -200,7 +198,7 @@ public class EventUtil {
 	 * @param event
 	 * @param actInst
 	 */
-	private static void triggerFilterExecuter(AbstractFlowEvent event, ActivityInst activityInst) {
+	public static void triggerFilterExecuter(AbstractFlowEvent event, ActivityInst activityInst) {
 		//执行环节创建filter
 		for(ProcessFilter filter : event.getProcessEngine().getProcessFilters()) {
 			filter.activityCreate(event, activityInst);

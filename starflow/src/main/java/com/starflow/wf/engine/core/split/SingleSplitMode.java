@@ -51,9 +51,12 @@ public class SingleSplitMode extends AbstractSplitMode {
 		
 		if(isStartAct(event, activityXml)) {
 			ActivityInst activityInst = type.createActivity(event, activityXml);
-			if(ActivityStartRuleUtil.isStartActivity(event, activityInst))
+			if(ActivityStartRuleUtil.isStartActivity(event, activityInst)) {
+				EventUtil.triggerFilterExecuter(event, activityInst);
 				EventUtil.publishActivityStartEvent(event, activityInst, activityXml);
-			
+			} else
+				EventUtil.triggerFilterExecuter(event, activityInst);
+				
 			actInsts.add(activityInst);
 		} else {
 			//下个环节没有满足聚合条件，不能启动，只保存运行轨迹
