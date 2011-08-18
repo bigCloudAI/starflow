@@ -81,7 +81,7 @@ public class ActivityInstService implements IActivityInstService {
 		
 		final ProcessInstance processInstance = this.procInstRep.findProcessInstance(activityInst.getProcessInstId());
 		final ProcessDefine processDefine = this.procDefRep.findProcessDefine(processInstance.getProcessDefId());
-		final ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityInst.getActivityDefId()); 
+		final ActivityElement activityElement = processDefine.getProcessElement().getActivitys().get(activityInst.getActivityDefId()); 
 		
 		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 			@Override
@@ -89,7 +89,7 @@ public class ActivityInstService implements IActivityInstService {
 				//发布环节结束事件
 				ActivityStartEvent event = new ActivityStartEvent(processEngine); 
 				event.setProcessInstance(processInstance);
-				event.setPreActivityXml(activityXml);
+				event.setPreActivityXml(activityElement);
 				
 				EventUtil.publishActivityFinishEvent(event, processInstance, activityInst);
 			}
@@ -102,7 +102,7 @@ public class ActivityInstService implements IActivityInstService {
 			throw new ProcessEngineException("流程不处于运行状态，不能重启环节！");
 		
 		final ProcessDefine processDefine = this.procDefRep.findProcessDefine(processInstance.getProcessDefId());
-		final ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId); 
+		final ActivityElement activityXml = processDefine.getProcessElement().getActivitys().get(activityDefId); 
 		
 		if(activityXml == null)
 			throw new ProcessEngineException("指定启动环节【{}】不存在" + activityDefId);
@@ -158,16 +158,16 @@ public class ActivityInstService implements IActivityInstService {
 //		}
 		
 		ProcessDefine processDefine = this.procDefRep.findProcessDefine(processInstance.getProcessDefId());
-		ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityInst.getActivityDefId()); 
+		ActivityElement activityElement = processDefine.getProcessElement().getActivitys().get(activityInst.getActivityDefId()); 
 		
-		EventUtil.publishActivityRestartEvent(processEngine, processInstance, activityInst, activityXml);
+		EventUtil.publishActivityRestartEvent(processEngine, processInstance, activityInst, activityElement);
 	}
 	
 	public void activateActivity(final long activityInstId) {
 		final ActivityInst activityInst = actInstRep.findActivityInst(activityInstId);
 		final ProcessInstance processInstance = procInstRep.findProcessInstance(activityInst.getProcessInstId());
 		final ProcessDefine processDefine = this.procDefRep.findProcessDefine(processInstance.getProcessDefId());
-		final ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityInst.getActivityDefId()); 
+		final ActivityElement activityElement = processDefine.getProcessElement().getActivitys().get(activityInst.getActivityDefId()); 
 		
 		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 			@Override
@@ -183,7 +183,7 @@ public class ActivityInstService implements IActivityInstService {
 				event.setProcessInstance(processInstance);
 				
 				//启动环节
-				EventUtil.publishActivityStartEvent(event, activityInst, activityXml);
+				EventUtil.publishActivityStartEvent(event, activityInst, activityElement);
 				
 				if(logger.isDebugEnabled())
 					logger.debug("环节【{}】人工激活", activityInst.getActivityInstName());

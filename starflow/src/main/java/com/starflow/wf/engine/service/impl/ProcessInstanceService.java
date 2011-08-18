@@ -93,7 +93,7 @@ public class ProcessInstanceService implements IProcessInstanceService {
 		
 		//流程启动前触发事件
 		TriggerProcessEventUtil.beforeStart(processEngine, processDefine, null,
-				processDefine.getProcessObject().getEvents());
+				processDefine.getProcessElement().getEvents());
 		
 		ProcessInstance processInstance = transactionTemplate.execute(new TransactionCallback<ProcessInstance>() {
 			public ProcessInstance doInTransaction(TransactionStatus status) {

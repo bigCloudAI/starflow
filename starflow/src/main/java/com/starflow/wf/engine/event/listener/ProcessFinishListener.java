@@ -51,7 +51,7 @@ public class ProcessFinishListener extends AbstractProcessListener {
 		
 		//流程完成后触发事件
 		TriggerProcessEventUtil.afterComplete(event.getProcessEngine(), null, processInstance, 
-				event.getProcessXml().getEvents());
+				event.getProcessElement().getEvents());
 		
 		//判断当前流程是否为子流程。
 		long actInstId = processInstance.getActivityInstId();
@@ -74,8 +74,10 @@ public class ProcessFinishListener extends AbstractProcessListener {
 			endEvent.setProcessInstance(mainProcess);
 			endEvent.setActivityInst(activityInst);
 			
-			ProcessElement processXml = event.getProcessXml();
-			ActivityElement activityXml = processXml.getActivitys().get(activityInst.getActivityDefId());
+			ProcessElement mainProcessElement =  event.getProcessEngine().getProcessDefineService()
+										.findProcessDefine(mainProcess.getProcessDefId()).getProcessElement();
+			
+			ActivityElement activityXml = mainProcessElement.getActivitys().get(activityInst.getActivityDefId());
 			
 			endEvent.setPreActivityXml(activityXml);
 			

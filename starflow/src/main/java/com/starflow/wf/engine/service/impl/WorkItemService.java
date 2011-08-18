@@ -89,7 +89,7 @@ public class WorkItemService implements IWorkItemService {
 		
 		final ProcessInstance processInstance = this.procInstRep.findProcessInstance(workItem.getProcessInstId());
 		final ProcessDefine processDefine = this.procDefRep.findProcessDefine(processInstance.getProcessDefId());
-		final ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityInst.getActivityDefId()); 
+		final ActivityElement activityElement = processDefine.getProcessElement().getActivitys().get(activityInst.getActivityDefId()); 
 		
 		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 			@Override
@@ -100,7 +100,7 @@ public class WorkItemService implements IWorkItemService {
 				ActivityFinishEvent endEvent = new ActivityFinishEvent(processEngine);
 				endEvent.setProcessInstance(processInstance);
 				endEvent.setActivityInst(activityInst);
-				endEvent.setPreActivityXml(activityXml);
+				endEvent.setPreActivityXml(activityElement);
 				processEngine.getApplicationContext().publishEvent(endEvent);
 			}
 		});

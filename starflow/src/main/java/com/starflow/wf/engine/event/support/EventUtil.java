@@ -81,7 +81,7 @@ public class EventUtil {
 		
 		//流程完成前触发事件
 		TriggerProcessEventUtil.beforeComplete(processEngine, null, processEndEvent.getProcessInstance(),
-				processEndEvent.getProcessXml().getEvents());
+				processEndEvent.getProcessElement().getEvents());
 		processEngine.getApplicationContext().publishEvent(processEndEvent);
 	}
 	

@@ -45,7 +45,7 @@ public class ProcessStartListener extends AbstractProcessListener {
 	public void processStart(ProcessStartEvent event) {
 		ProcessInstance processInstance = event.getProcessInstance();
 		ProcessEngine processEngine = event.getProcessEngine();
-		ProcessElement processXml = event.getProcessXml();
+		ProcessElement processElement = event.getProcessElement();
 		
 		//设置流程实例为运行状态
 		event.getProcInstFacade().updateProcessStateAndStartTime(processInstance.getProcessInstId(), 
@@ -58,10 +58,10 @@ public class ProcessStartListener extends AbstractProcessListener {
 		
 		//流程启动后触发事件
 		TriggerProcessEventUtil.afterStart(processEngine, null, processInstance, 
-				processXml.getEvents());
+				processElement.getEvents());
 		
 		StartActivityType type = (StartActivityType)ActivityTypeFactory.buildActivityType(Constants.ACT_TYPE_START);
-		ActivityElement activityXml = processXml.getActivitys().get(StarFlowNames.ACT_START_ID);
+		ActivityElement activityXml = processElement.getActivitys().get(StarFlowNames.ACT_START_ID);
 		ActivityInst activityInst = type.createActivity(event, activityXml);
 		
 		EventUtil.publishActivityStartEvent(event, activityInst, activityXml);

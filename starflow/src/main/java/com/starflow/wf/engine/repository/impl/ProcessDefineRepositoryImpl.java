@@ -95,11 +95,11 @@ public class ProcessDefineRepositoryImpl extends JdbcDaoSupport implements IProc
 	
 	public ProcessDefine findProcessDefine(long processDefId) {
 		ProcessDefine processDefine = getCacheValue("prodef-" + processDefId);
-		if(processDefine == null || processDefine.getProcessObject() == null) {
+		if(processDefine == null || processDefine.getProcessElement() == null) {
 			processDefine = this.getJdbcTemplate().queryForObject(findProcessDefineSQL, new ProcessDefineRowMapper(), processDefId);
 			
-			ProcessElement processXml = ProcessDefineParser.createProcessXml(processDefine.getProcessDefContent());
-			processDefine.setProcessObject(processXml);
+			ProcessElement processElement = ProcessDefineParser.createProcessXml(processDefine.getProcessDefContent());
+			processDefine.setProcessElement(processElement);
 			cache.put("prodef-" + processDefine.getProcessDefId(), processDefine);
 		}
 		return processDefine;
@@ -111,7 +111,7 @@ public class ProcessDefineRepositoryImpl extends JdbcDaoSupport implements IProc
 			processDefine = this.getJdbcTemplate().queryForObject(findPublishProcessDefineSQL, new ProcessDefineRowMapper(), processDefName);
 			
 			ProcessElement processXml = ProcessDefineParser.createProcessXml(processDefine.getProcessDefContent());
-			processDefine.setProcessObject(processXml);
+			processDefine.setProcessElement(processXml);
 			cache.put("prodef-" + processDefine.getProcessDefId(), processDefine);
 			cache.put("prodef-" + processDefine.getProcessDefName(), processDefine);
 		}

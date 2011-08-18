@@ -42,16 +42,16 @@ public class ActivityStartRuleUtil {
 	 */
 	public static boolean isStartActivity(AbstractFlowEvent event, ActivityInst activityInst) {
 		boolean isStart = true;
-		ActivityElement activityXml = event.getProcessXml().getActivitys().get(activityInst.getActivityDefId());
+		ActivityElement activityElement = event.getProcessElement().getActivitys().get(activityInst.getActivityDefId());
 		
 		if(logger.isDebugEnabled()) {
-			logger.debug("环节【{}】启动规则：{}", activityXml.getName(), activityXml.getActivateRuleType());
+			logger.debug("环节【{}】启动规则：{}", activityElement.getName(), activityElement.getActivateRuleType());
 		}
 		
-		if(Constants.ACT_ACTIVATE_RULE_WAIT.equalsIgnoreCase(activityXml.getActivateRuleType()))
+		if(Constants.ACT_ACTIVATE_RULE_WAIT.equalsIgnoreCase(activityElement.getActivateRuleType()))
 			isStart = false;
-		else if(Constants.ACT_ACTIVATE_RULE_LOGIC.equalsIgnoreCase(activityXml.getActivateRuleType())) {
-			String beanName = activityXml.getStartStrategybyAppAction();
+		else if(Constants.ACT_ACTIVATE_RULE_LOGIC.equalsIgnoreCase(activityElement.getActivateRuleType())) {
+			String beanName = activityElement.getStartStrategybyAppAction();
 			
 			try {
 				ProcessInstance cloneProcessInstance = new ProcessInstance();

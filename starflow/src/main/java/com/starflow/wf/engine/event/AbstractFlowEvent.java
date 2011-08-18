@@ -39,7 +39,7 @@ public abstract class AbstractFlowEvent extends ApplicationContextEvent {
 
 	private ProcessEngine processEngine;
 	private ProcessInstance processInstance;
-	private ProcessElement processXml;
+	private ProcessElement processElement;
 	private ActivityElement preActivityXml;
 	
 	private IProcessInstanceRepository procInstRep;
@@ -69,11 +69,11 @@ public abstract class AbstractFlowEvent extends ApplicationContextEvent {
 		this.processInstance = processInstance;
 		IProcessDefineRepository procDefFacade = this.getApplicationContext().getBean(IProcessDefineRepository.class);
 		ProcessDefine processDefine = procDefFacade.findProcessDefine(processInstance.getProcessDefId());
-		processXml = processDefine.getProcessObject();
+		processElement = processDefine.getProcessElement();
 	}
 	
-	public ProcessElement getProcessXml() {
-		return processXml;
+	public ProcessElement getProcessElement() {
+		return processElement;
 	}
 	
 	public IProcessInstanceRepository getProcInstFacade() {

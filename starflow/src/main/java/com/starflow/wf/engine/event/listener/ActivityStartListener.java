@@ -126,7 +126,7 @@ public class ActivityStartListener extends AbstractProcessListener {
 			}
 		} else if(Constants.ACT_TYPE_TOOLAPP.equalsIgnoreCase(type)) {
 			//自动环节结束模式为：toolApp
-			String callType = event.getProcessXml().getActivitys().get(activityInst.getActivityDefId()).getFinishType();
+			String callType = event.getProcessElement().getActivitys().get(activityInst.getActivityDefId()).getFinishType();
 			if(Constants.ACT_ATUO_FINISH_TOOLAPP.equalsIgnoreCase(callType)) {
 				EventUtil.publishActivityFinishEvent(event, event.getProcessInstance(), activityInst);
 			}

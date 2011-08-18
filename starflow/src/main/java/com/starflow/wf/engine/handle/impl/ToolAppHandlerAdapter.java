@@ -42,7 +42,7 @@ import com.starflow.wf.service.spi.IToolAppAction;
 public class ToolAppHandlerAdapter extends BaseHandlerAdapter {
 
 	public void action(final ActivityStartEvent event, final ActivityInst activityInst) {
-		ActivityElement activityXml = event.getProcessXml().getActivitys().get(activityInst.getActivityDefId());
+		ActivityElement activityXml = event.getProcessElement().getActivitys().get(activityInst.getActivityDefId());
 		String beanName = activityXml.getExecuteAction();
 		if(StringUtils.hasText(beanName)) {
 			IAction action = new Action(beanName); 

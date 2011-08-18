@@ -51,12 +51,12 @@ public class ActivityCreateListener extends AbstractProcessListener {
 		
 		List<ActivityElement> nextNodes = new ArrayList<ActivityElement>();
 
-		ActivityElement activityXml = event.getProcessXml().getActivitys().get(activityInst.getActivityDefId());
-		mode = activityXml.getSplitMode();;
-		nextNodes = findFreeActs(event, event.getProcessXml(), activityXml); //自由流已经指定要启动的环节
+		ActivityElement activityElement = event.getProcessElement().getActivitys().get(activityInst.getActivityDefId());
+		mode = activityElement.getSplitMode();;
+		nextNodes = findFreeActs(event, event.getProcessElement(), activityElement); //自由流已经指定要启动的环节
 		if(nextNodes == null || nextNodes.size() == 0) {
-			List<TransitionElement> transitions = activityXml.getAfterTrans();
-			nextNodes = findNextActs(event, event.getProcessXml(), transitions, activityXml, mode);
+			List<TransitionElement> transitions = activityElement.getAfterTrans();
+			nextNodes = findNextActs(event, event.getProcessElement(), transitions, activityElement, mode);
 		}
 		
 		//查找当前环节的分支策略

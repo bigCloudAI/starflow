@@ -52,8 +52,8 @@ public class ActivityFinishListener extends AbstractProcessListener {
 		activityInst.setCurrentState(StarFlowState.ACT_INST_COMPLETED);
 		activityInst.setEndTime(nowDate);
 		
-		ProcessElement processXml = event.getProcessXml();
-		ActivityElement activityXml = processXml.getActivitys().get(activityInst.getActivityDefId());
+		ProcessElement processElement = event.getProcessElement();
+		ActivityElement activityXml = processElement.getActivitys().get(activityInst.getActivityDefId());
 		String actType = activityXml.getType();
 		
 		//判断当前环节是否可以结束

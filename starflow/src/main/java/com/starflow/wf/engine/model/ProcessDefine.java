@@ -41,7 +41,7 @@ public class ProcessDefine implements Serializable {
 	private Date updateTime;
 	private String updator;
 	
-	private ProcessElement processObject;
+	private ProcessElement processElement;
 	
 	public long getProcessDefId() {
 		return processDefId;
@@ -103,11 +103,11 @@ public class ProcessDefine implements Serializable {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	public ProcessElement getProcessObject() {
-		return processObject;
+	public ProcessElement getProcessElement() {
+		return processElement;
 	}
-	public void setProcessObject(ProcessElement processObject) {
-		this.processObject = processObject;
+	public void setProcessElement(ProcessElement processElement) {
+		this.processElement = processElement;
 	}
 	public String getCreator() {
 		return creator;

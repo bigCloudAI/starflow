@@ -189,7 +189,7 @@ public class ProcessDefineService implements IProcessDefineService {
 			@Override
 			public Map<String, String> doInTransaction(TransactionStatus status) {
 				ProcessDefine processDefine = procDefRep.findProcessDefine(processDefId);
-				return processDefine.getProcessObject().getProperties();
+				return processDefine.getProcessElement().getProperties();
 			}
 		});
 	}
@@ -200,8 +200,8 @@ public class ProcessDefineService implements IProcessDefineService {
 			@Override
 			public Map<String, String> doInTransaction(TransactionStatus status) {
 				ProcessDefine processDefine = procDefRep.findProcessDefine(processDefId);
-				ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
-				return activityXml.getProperties();
+				ActivityElement activityElement = processDefine.getProcessElement().getActivitys().get(activityDefId);
+				return activityElement.getProperties();
 			}
 		});
 	}
@@ -212,8 +212,8 @@ public class ProcessDefineService implements IProcessDefineService {
 			@Override
 			public List<OperationElement> doInTransaction(TransactionStatus status) {
 				ProcessDefine processDefine = procDefRep.findProcessDefine(processDefId);
-				ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
-				return activityXml.getOperations();
+				ActivityElement activityElement = processDefine.getProcessElement().getActivitys().get(activityDefId);
+				return activityElement.getOperations();
 			}
 		});
 	}
@@ -224,8 +224,8 @@ public class ProcessDefineService implements IProcessDefineService {
 			@Override
 			public String doInTransaction(TransactionStatus status) {
 				ProcessDefine processDefine = procDefRep.findProcessDefine(processDefId);
-				ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
-				return activityXml.getAction();
+				ActivityElement activityElement = processDefine.getProcessElement().getActivitys().get(activityDefId);
+				return activityElement.getAction();
 			}
 		});
 	}
@@ -236,13 +236,13 @@ public class ProcessDefineService implements IProcessDefineService {
 			@Override
 			public List<ActivityElement> doInTransaction(TransactionStatus status) {
 				ProcessDefine processDefine = procDefRep.findProcessDefine(processDefId);
-				ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
+				ActivityElement activityElement = processDefine.getProcessElement().getActivitys().get(activityDefId);
 				
-				List<TransitionElement> beforeTrans = activityXml.getBeforeTrans();
+				List<TransitionElement> beforeTrans = activityElement.getBeforeTrans();
 
 				List<ActivityElement> list = new ArrayList<ActivityElement>();
 				for(TransitionElement transitionXml :  beforeTrans) {
-					list.add(processDefine.getProcessObject().getActivitys().get(transitionXml.getFrom()));
+					list.add(processDefine.getProcessElement().getActivitys().get(transitionXml.getFrom()));
 				}
 				
 				return list;
@@ -256,13 +256,13 @@ public class ProcessDefineService implements IProcessDefineService {
 			@Override
 			public List<ActivityElement> doInTransaction(TransactionStatus status) {
 				ProcessDefine processDefine = procDefRep.findProcessDefine(processDefId);
-				ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
+				ActivityElement activityElement = processDefine.getProcessElement().getActivitys().get(activityDefId);
 				
-				List<TransitionElement> afterTrans = activityXml.getAfterTrans();
+				List<TransitionElement> afterTrans = activityElement.getAfterTrans();
 
 				List<ActivityElement> list = new ArrayList<ActivityElement>();
 				for(TransitionElement transitionXml :  afterTrans) {
-					list.add(processDefine.getProcessObject().getActivitys().get(transitionXml.getTo()));
+					list.add(processDefine.getProcessElement().getActivitys().get(transitionXml.getTo()));
 				}
 				
 				return list;

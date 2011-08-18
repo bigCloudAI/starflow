@@ -55,8 +55,8 @@ public class FreeFlowService implements IFreeFlowService {
 	 */
 	public boolean isFreeActivity(long processDefId, String activityDefId) {
 		ProcessDefine processDefine = this.procDefRep.findProcessDefine(processDefId);
-		ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
-		return activityXml.getIsFreeActivity();
+		ActivityElement activityElement = processDefine.getProcessElement().getActivitys().get(activityDefId);
+		return activityElement.getIsFreeActivity();
 	}
 
 	/**
@@ -64,19 +64,19 @@ public class FreeFlowService implements IFreeFlowService {
 	 */
 	public List<FreeActElement> queryPossibleNextActsOfFreeActivity(long processDefId, String activityDefId) {
 		ProcessDefine processDefine = this.procDefRep.findProcessDefine(processDefId);
-		ActivityElement activityXml = processDefine.getProcessObject().getActivitys().get(activityDefId);
-		String strategy = activityXml.getFreeRangeStrategy();
+		ActivityElement activityElement = processDefine.getProcessElement().getActivitys().get(activityDefId);
+		String strategy = activityElement.getFreeRangeStrategy();
 		
 		//是否尽限为人工活动
-		boolean isOnlyLimitedManualAct = activityXml.getIsOnlyLimitedManualActivity();
+		boolean isOnlyLimitedManualAct = activityElement.getIsOnlyLimitedManualActivity();
 		
 		List<FreeActElement> actEls = new ArrayList<FreeActElement>();
 		if(Constants.Free_Act_strategy_three.equalsIgnoreCase(strategy)) {
 			//在后继活动范围内自由
-			List<TransitionElement> transitions = activityXml.getAfterTrans();
+			List<TransitionElement> transitions = activityElement.getAfterTrans();
 			for(TransitionElement tx : transitions) {
 				String _actDefId = tx.getTo();
-				ActivityElement ax = processDefine.getProcessObject().getActivitys().get(_actDefId);
+				ActivityElement ax = processDefine.getProcessElement().getActivitys().get(_actDefId);
 				if(isOnlyLimitedManualAct && !Constants.ACT_TYPE_MANUL.equals(ax.getType())) {
 					continue;
 				}
@@ -88,10 +88,10 @@ public class FreeFlowService implements IFreeFlowService {
 			}
 		} else if(Constants.Free_Act_strategy_two.equalsIgnoreCase(strategy)) {
 			//在指定活动列表范围内自由
-			activityXml.getFreeActs();
+			activityElement.getFreeActs();
 		} else if(Constants.Free_Act_strategy_One.equalsIgnoreCase(strategy)) {
 			//在流程范围内任意自由
-			Collection<ActivityElement> collect = processDefine.getProcessObject().getActivitys().values();
+			Collection<ActivityElement> collect = processDefine.getProcessElement().getActivitys().values();
 			for(ActivityElement ax : collect) {
 				if(isOnlyLimitedManualAct && !Constants.ACT_TYPE_MANUL.equals(ax.getType())) {
 					continue;
