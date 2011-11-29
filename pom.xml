@@ -5,19 +5,40 @@
 		<artifactId>oss-parent</artifactId>
 		<version>2</version>
 	</parent>
-	
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.starflow</groupId>
 	<artifactId>starflow</artifactId>
 	<version>0.7.1-SNAPSHOT</version>
 	<description>Lightweight open-source workflow</description>
 	<url>http://code.google.com/p/starflow/</url>
-	
+
+	<developers>
+		<developer>
+			<name>melin</name>
+			<url>http://melin.iteye.com/</url>
+			<timezone>8</timezone>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:svn:http://starflow.googlecode.com/svn/trunk/</connection>
+		<developerConnection>scm:svn:https://starflow.googlecode.com/svn/trunk/</developerConnection>
+		<url>http://starflow.googlecode.com/svn/trunk/</url>
+	</scm>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.springframework.version>3.1.0.RC1</org.springframework.version>
+		<org.springframework.version>3.1.0.RC2</org.springframework.version>
 		<org.slf4j.version>1.6.1</org.slf4j.version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>Springframework milestone</id>
+			<url>http://maven.springframework.org/milestone</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<!-- Spring -->
@@ -131,13 +152,39 @@
 	</dependencies>
 
 	<build>
+		<extensions>
+			<extension>
+				<groupId>org.jvnet.wagon-svn</groupId>
+				<artifactId>wagon-svn</artifactId>
+				<version>1.8</version>
+			</extension>
+		</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadoc</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -156,4 +203,17 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<encoding>utf-8</encoding>
+					<charset>utf-8</charset>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
