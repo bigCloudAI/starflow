@@ -72,6 +72,7 @@
         STARTTIME timestamp,
         ENDTIME timestamp,
         FINALTIME timestamp,
+        MAINPROCINSTID bigint,
         PARENTPROCINSTID bigint,
         ACTIVITYINSTID bigint,
         primary key (PROCESSINSTID)

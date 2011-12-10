@@ -34,8 +34,8 @@ import com.googlecode.starflow.engine.repository.IProcessInstanceRepository;
 public class ProcessInstanceRepositoryImpl extends JdbcDaoSupport implements IProcessInstanceRepository {
 	
 	private static String insertProcessInstanceSQL = "insert into WF_PROCESSINST (processInstId, processDefId, processInstName, " +
-			"creator, currentState, subFlow, limitNum, createTime, parentProcInstId, activityInstId) " +
-			"values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			"creator, currentState, subFlow, limitNum, createTime, mainProcInstId, parentProcInstId, activityInstId) " +
+			"values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	private static String findProcessInstanceSQL = "select * from WF_PROCESSINST where processInstId = ?";
 	
@@ -49,7 +49,8 @@ public class ProcessInstanceRepositoryImpl extends JdbcDaoSupport implements IPr
 	public void insertProcessInstance(ProcessInstance processInstance) {
 		this.getJdbcTemplate().update(insertProcessInstanceSQL, processInstance.getProcessInstId(), processInstance.getProcessDefId(),
 				processInstance.getProcessInstName(), processInstance.getCreator(), processInstance.getCurrentState(), processInstance.getSubFlow(),
-				processInstance.getLimitNum(), processInstance.getCreateTime(), processInstance.getParentProcInstId(), processInstance.getActivityInstId());
+				processInstance.getLimitNum(), processInstance.getCreateTime(), processInstance.getMainProcInstId(), 
+				processInstance.getParentProcInstId(), processInstance.getActivityInstId());
 	}
 	
 	public ProcessInstance findProcessInstance(long processInstId) {
@@ -67,6 +68,7 @@ public class ProcessInstanceRepositoryImpl extends JdbcDaoSupport implements IPr
 				processInstance.setSubFlow(resultSet.getString("subFlow"));
 				processInstance.setLimitNum(resultSet.getLong("limitNum"));
 				processInstance.setCurrentState(resultSet.getInt("currentState"));
+				processInstance.setMainProcInstId(resultSet.getLong("mainProcInstId"));
 				processInstance.setParentProcInstId(resultSet.getLong("parentProcInstId"));
 				processInstance.setActivityInstId(resultSet.getLong("activityInstId"));
 				return processInstance;

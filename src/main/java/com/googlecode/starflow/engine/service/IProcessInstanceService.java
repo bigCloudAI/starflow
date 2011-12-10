@@ -44,7 +44,7 @@ public interface IProcessInstanceService {
 	 * @param activityInstId
 	 * @return
 	 */
-	public ProcessInstance innerCreateSubProcess(String processDefName, String userId,
+	public ProcessInstance innerCreateSubProcess(String processDefName, String userId, long mainProcInstId,
 			long parentProcInstId, long activityInstId);
 	
 	/**

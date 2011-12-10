@@ -1,19 +1,19 @@
 
-    drop table webframe.wf_activityinst;
+    drop table wf_activityinst;
 
-    drop table webframe.wf_participant;
+    drop table wf_participant;
 
-    drop table webframe.wf_primarykey;
+    drop table wf_primarykey;
 
-    drop table webframe.wf_processdefine;
+    drop table wf_processdefine;
 
-    drop table webframe.wf_processinst;
+    drop table wf_processinst;
 
-    drop table webframe.wf_transctrl;
+    drop table wf_transctrl;
 
-    drop table webframe.wf_workitem;
+    drop table wf_workitem;
 
-    create table webframe.wf_activityinst (
+    create table wf_activityinst (
         ACTIVITYINSTID numeric(19,0) not null,
         ACTIVITYINSTNAME varchar(100) null,
         DESCRIPTION varchar(500) null,
@@ -29,7 +29,7 @@
         primary key (ACTIVITYINSTID)
     );
 
-    create table webframe.wf_participant (
+    create table wf_participant (
         PARTICID numeric(19,0) not null,
         WORKITEMID numeric(19,0) not null,
         PARTICTYPE varchar(20) null,
@@ -38,13 +38,13 @@
         primary key (PARTICID)
     );
 
-    create table webframe.wf_primarykey (
+    create table wf_primarykey (
         CODE numeric(19,0) not null,
         NAME varchar(30) not null,
         primary key (CODE, NAME)
     );
 
-    create table webframe.wf_processdefine (
+    create table wf_processdefine (
         PROCESSDEFID numeric(19,0) not null,
         PROCESSDEFNAME varchar(100) null,
         PROCESSCHNAME varchar(100) null,
@@ -60,7 +60,7 @@
         primary key (PROCESSDEFID)
     );
 
-    create table webframe.wf_processinst (
+    create table wf_processinst (
         PROCESSINSTID numeric(19,0) not null,
         PROCESSDEFID numeric(19,0) null,
         PROCESSINSTNAME varchar(100) null,
@@ -72,12 +72,13 @@
         STARTTIME datetime null,
         ENDTIME datetime null,
         FINALTIME datetime null,
+        MAINPROCINSTID numeric(19,0) null,
         PARENTPROCINSTID numeric(19,0) null,
         ACTIVITYINSTID numeric(19,0) null,
         primary key (PROCESSINSTID)
     );
 
-    create table webframe.wf_transctrl (
+    create table wf_transctrl (
         TRANSCTRLID numeric(19,0) not null,
         SRCACTDEFID varchar(50) null,
         SRCACTDEFNAME varchar(100) null,
@@ -92,7 +93,7 @@
         primary key (TRANSCTRLID)
     );
 
-    create table webframe.wf_workitem (
+    create table wf_workitem (
         WORKITEMID numeric(19,0) not null,
         WORKITEMNAME varchar(100) null,
         WORKITEMTYPE varchar(10) null,

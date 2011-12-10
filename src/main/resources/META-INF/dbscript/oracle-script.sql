@@ -52,7 +52,7 @@
         CURRENTSTATE number(10,0),
         VERSIONSIGN varchar2(20),
         LIMITTIME number(10,0),
-        PROCESSDEFCONTENT long,
+        PROCESSDEFCONTENT clob,
         CREATETIME date,
         CREATOR varchar2(64),
         UPDATETIME date,
@@ -72,6 +72,7 @@
         STARTTIME date,
         ENDTIME date,
         FINALTIME date,
+        MAINPROCINSTID number(19,0),
         PARENTPROCINSTID number(19,0),
         ACTIVITYINSTID number(19,0),
         primary key (PROCESSINSTID)

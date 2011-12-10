@@ -72,6 +72,7 @@
         STARTTIME datetime null,
         ENDTIME datetime null,
         FINALTIME datetime null,
+        MAINPROCINSTID numeric(19,0) null,
         PARENTPROCINSTID numeric(19,0) null,
         ACTIVITYINSTID numeric(19,0) null,
         primary key (PROCESSINSTID)

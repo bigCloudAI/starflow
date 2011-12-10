@@ -68,21 +68,21 @@ public class ProcessInstanceService implements IProcessInstanceService {
 	 * {@inheritDoc}
 	 */
 	public ProcessInstance createProcess(String processDefName, String userId) {
-		return innercreateProcess(processDefName, userId, -1, -1, Constants.FLOW_ISNOT_SUBFLOW);
+		return innercreateProcess(processDefName, userId, -1, -1, -1, Constants.FLOW_ISNOT_SUBFLOW);
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public ProcessInstance innerCreateSubProcess(String processDefName, String userId,
+	public ProcessInstance innerCreateSubProcess(String processDefName, String userId, final long mainProcInstId,
 			long parentProcInstId, long activityInstId) {
-		return innercreateProcess(processDefName, userId, parentProcInstId, activityInstId, Constants.FLOW_IS_SUBFLOW);
+		return innercreateProcess(processDefName, userId, mainProcInstId, parentProcInstId, activityInstId, Constants.FLOW_IS_SUBFLOW);
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	private ProcessInstance innercreateProcess(String processDefName, final String userId,
+	private ProcessInstance innercreateProcess(String processDefName, final String userId, final long mainProcInstId,
 			final long parentProcInstId, final long activityInstId, final String subFlow) {
 		if(!StringUtils.hasText(userId))
 			throw new IllegalArgumentException("创建流程时，必须指定用户 ID");
@@ -108,10 +108,13 @@ public class ProcessInstanceService implements IProcessInstanceService {
 				_processInstance.setLimitNum(processDefine.getLimitTime());
 				long _id = PrimaryKeyUtil.getPrimaryKey(Keys.PROCESSINSTID);
 				_processInstance.setProcessInstId(_id);
-				if(parentProcInstId == -1)
+				if(mainProcInstId == -1 && parentProcInstId == -1) {
+					_processInstance.setMainProcInstId(_id);
 					_processInstance.setParentProcInstId(_id);
-				else
+				} else {
+					_processInstance.setMainProcInstId(mainProcInstId);
 					_processInstance.setParentProcInstId(parentProcInstId);
+				}
 				
 				if(activityInstId != -1)
 					_processInstance.setActivityInstId(activityInstId);

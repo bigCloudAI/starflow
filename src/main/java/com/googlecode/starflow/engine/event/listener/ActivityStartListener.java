@@ -76,7 +76,7 @@ public class ActivityStartListener extends AbstractProcessListener {
 	
 	private static void startSubProcess(AbstractFlowEvent event, String subProcessDefName, String creator, long activityInstId) {
 		ProcessInstance subProcInst = event.getProcessEngine().getProcessInstanceService().innerCreateSubProcess(subProcessDefName, 
-				creator, event.getProcessInstance().getProcessInstId(), activityInstId);
+				creator, event.getProcessInstance().getMainProcInstId(), event.getProcessInstance().getProcessInstId(), activityInstId);
 		event.getProcessEngine().getProcessInstanceService().startProcess(subProcInst.getProcessInstId());		
 	}
 	

@@ -33,6 +33,7 @@ public class ProcessInstance implements Serializable {
 	private int currentState;
 	private String subFlow; //N：非子流程，Y：是子流程
 	private long limitNum;
+	private long mainProcInstId;
 	private long parentProcInstId;
 	private long activityInstId;
 	private Date createTime;
@@ -81,6 +82,12 @@ public class ProcessInstance implements Serializable {
 	}
 	public void setLimitNum(long limitNum) {
 		this.limitNum = limitNum;
+	}
+	public long getMainProcInstId() {
+		return mainProcInstId;
+	}
+	public void setMainProcInstId(long mainProcInstId) {
+		this.mainProcInstId = mainProcInstId;
 	}
 	public long getParentProcInstId() {
 		return parentProcInstId;
