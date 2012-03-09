@@ -22,6 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.util.Assert;
 
 import com.googlecode.starflow.core.key.CacheValue;
 import com.googlecode.starflow.core.key.UniqueException;
@@ -51,6 +53,9 @@ public class DefaultUniqueTableApp implements UniqueTableApp {
 	}
 
 	public CacheValue getCacheValue(int cacheNum, String name) {
+		Assert.isTrue(TransactionSynchronizationManager.isSynchronizationActive(), 
+				"Transaction must be running");
+
 		CacheValue cache = null;
 		try {
 			cache = getCurrCode(name);
