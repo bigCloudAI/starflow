@@ -38,10 +38,6 @@ public class SequenceFactory implements ApplicationContextAware {
 	
 	private SequenceFactory() {}
 	
-	public void init() {
-		factory = this.context.getBean(SequenceFactory.class);
-	}
-	
 	public static SingleSequence getSequence(String name) {
 		SingleSequence sequence = (SingleSequence) singleSequenceMap.get(name);
 		if (sequence == null) {
@@ -69,6 +65,7 @@ public class SequenceFactory implements ApplicationContextAware {
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {
 		this.context = applicationContext;
+		factory = this.context.getBean(SequenceFactory.class);
 	}
 
 	public int getCacheKeyNum() {

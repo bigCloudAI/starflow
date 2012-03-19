@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import com.googlecode.starflow.engine.ProcessEngineException;
 import com.googlecode.starflow.engine.core.Constants;
 import com.googlecode.starflow.engine.core.ExpressionHandlerFactory;
 import com.googlecode.starflow.engine.core.RelaDataManagerBuilder;
@@ -54,8 +55,14 @@ public class ActivityCreateListener extends AbstractProcessListener {
 		ActivityElement activityElement = event.getProcessElement().getActivitys().get(activityInst.getActivityDefId());
 		mode = activityElement.getSplitMode();;
 		nextNodes = findFreeActs(event, event.getProcessElement(), activityElement); //自由流已经指定要启动的环节
+		
+		//如果不是自由流，需要查找后续环节
 		if(nextNodes == null || nextNodes.size() == 0) {
 			List<TransitionElement> transitions = activityElement.getAfterTrans();
+			
+			if(transitions.isEmpty())
+				throw new ProcessEngineException("环节【" + activityInst.getActivityInstName() + "】不是结束环节，且没有输出环节不能正常运行");
+			
 			nextNodes = findNextActs(event, event.getProcessElement(), transitions, activityElement, mode);
 		}
 		
