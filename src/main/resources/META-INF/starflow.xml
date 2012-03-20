@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 		
-    <bean class="com.googlecode.starflow.core.key.SequenceFactory" init-method="init">
+    <bean class="com.googlecode.starflow.core.key.SequenceFactory">
 		<property name="uniqueTableApp">
 			<bean class="com.googlecode.starflow.core.key.impl.DefaultUniqueTableApp">
 		    	<constructor-arg index="0" ref="dataSource" />
