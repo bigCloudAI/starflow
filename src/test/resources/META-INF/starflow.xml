@@ -12,12 +12,13 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 		
-	 <bean class="com.googlecode.starflow.core.key.SequenceFactory" init-method="init">
+	<bean class="com.googlecode.starflow.core.key.SequenceFactory">
 		<property name="uniqueTableApp">
-			<bean class="com.googlecode.starflow.core.key.impl.DefaultUniqueTableApp">
+			<bean class="com.googlecode.starflow.core.key.impl.MySQLUniqueTableApp">
 		    	<constructor-arg index="0" ref="dataSource" />
 		    </bean>
 		</property>
+		<property name="transactionTemplate" ref="transactionTemplate" />
 	</bean>
 	
 	<!-- =================================Dao Part==================================== -->
@@ -42,8 +43,15 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-		  p:dataSource-ref="dataSource" />
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">   
+  		<property name="dataSource">   
+   			<ref bean="dataSource" />   
+  		</property>   
+ 	</bean>
+ 	
+ 	<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+ 		<property name="transactionManager" ref="transactionManager" />
+ 	</bean>
 		  
 	<!-- =================================Listener Part==================================== -->
 	<bean class="com.googlecode.starflow.engine.event.listener.ProcessStartListener"></bean>
