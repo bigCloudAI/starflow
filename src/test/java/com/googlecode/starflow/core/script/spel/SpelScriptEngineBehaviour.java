@@ -70,6 +70,16 @@ public class SpelScriptEngineBehaviour {
 		String name = (String) scriptEngineImpl.eval("#name", scriptContext);
 		assertEquals("Mike Tesla", name);
 	}
+	
+	@Test
+	public void shouldEvalVariables1() throws ScriptException {
+		SpelScriptEngine scriptEngineImpl = new SpelScriptEngine();
+		ScriptContext scriptContext = new SimpleScriptContext();
+		scriptContext.setAttribute("name", "melin",
+				ScriptContext.ENGINE_SCOPE);
+		Boolean result = (Boolean) scriptEngineImpl.eval("#name == 'melin'", scriptContext);
+		assertTrue(result);
+	}
 
 	@Test
 	public void shouldUseTypes() throws ScriptException {
