@@ -18,6 +18,10 @@ package com.googlecode.starflow.core.key;
 
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
+
 /**
  * 
  * @author libinsong1204@gmail.com
@@ -30,14 +34,16 @@ public class SingleSequence {
 
 	protected long maxVal = 0L;
 
-	protected int cacheNum = 10;
+	private final int cacheNum;
 
+	private final UniqueTableApp app;
+	
+	private final TransactionTemplate transactionTemplate;
 
-	protected UniqueTableApp app = null;
-
-	public SingleSequence(int cacheNum, UniqueTableApp app) {
+	public SingleSequence(int cacheNum, UniqueTableApp app, TransactionTemplate transactionTemplate) {
 		this.cacheNum = cacheNum;
 		this.app = app;
+		this.transactionTemplate = transactionTemplate;
 	}
 
 	public long getNextVal(String name) {
@@ -55,7 +61,13 @@ public class SingleSequence {
 		}
 	}
 
-	private CacheValue getNewValFromDB(String name) {
-		return this.app.getCacheValue(this.cacheNum, name);
+	private CacheValue getNewValFromDB(final String name) {
+		return transactionTemplate.execute(new TransactionCallback<CacheValue>() {
+
+			@Override
+			public CacheValue doInTransaction(TransactionStatus status) {
+				return app.getCacheValue(cacheNum, name);
+			}
+		});
 	}
 }

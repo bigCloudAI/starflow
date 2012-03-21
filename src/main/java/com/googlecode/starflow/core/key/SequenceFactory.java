@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * 
@@ -32,6 +33,7 @@ public class SequenceFactory implements ApplicationContextAware {
 	private static Map<String, SingleSequence> singleSequenceMap = new ConcurrentHashMap<String, SingleSequence>();
 	private static SequenceFactory factory;
 	
+	private TransactionTemplate transactionTemplate;
 	private UniqueTableApp uniqueTableApp;
 	private ApplicationContext context;
 	private int cacheKeyNum = 10;
@@ -53,7 +55,7 @@ public class SequenceFactory implements ApplicationContextAware {
 
 	private SingleSequence createSequence(String name) {
 		int cacheNum = getCacheKeyNum();
-		SingleSequence sequence = new SingleSequence(cacheNum, uniqueTableApp);
+		SingleSequence sequence = new SingleSequence(cacheNum, uniqueTableApp, transactionTemplate);
 		return sequence;
 	}
 
@@ -75,5 +77,12 @@ public class SequenceFactory implements ApplicationContextAware {
 	public void setCacheKeyNum(int cacheKeyNum) {
 		this.cacheKeyNum = cacheKeyNum;
 	}
-	
+
+	public TransactionTemplate getTransactionTemplate() {
+		return transactionTemplate;
+	}
+
+	public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
+		this.transactionTemplate = transactionTemplate;
+	}
 }
