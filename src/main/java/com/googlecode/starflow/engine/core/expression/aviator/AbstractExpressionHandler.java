@@ -46,7 +46,8 @@ abstract public class AbstractExpressionHandler implements IExpressionHandler {
 		String expression = buildExpression(transition, conditions);
 		
 		if(logger.isDebugEnabled())
-			logger.debug("Transition Expressopn：{} Start", expression);
+			logger.debug("Transition Expression：{} Start", expression);
+		
 		Bindings variables= engine.createBindings();
 		if(conditions != null) {
 			for (Map.Entry<String, Object> m : conditions.entrySet()) {   
@@ -57,10 +58,14 @@ abstract public class AbstractExpressionHandler implements IExpressionHandler {
 			}
 		}
 		if(logger.isDebugEnabled())
-			logger.debug("Transition Expressopn End");
+			logger.debug("Transition Expression End");
 		
 		try {
 			Object result = engine.eval(expression, variables);
+			
+			if(logger.isDebugEnabled())
+				logger.debug("Transition Expression execute result: {}", result);
+			
 			if(result instanceof Boolean && (Boolean)result) {
 				return true;
 			} else
