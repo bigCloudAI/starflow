@@ -48,6 +48,7 @@
         PROCESSDEFID bigint not null,
         PROCESSDEFNAME varchar(100),
         PROCESSCHNAME varchar(100),
+        TENANTID bigint,
         DESCRIPTION longtext,
         CURRENTSTATE integer,
         VERSIONSIGN varchar(20),

@@ -48,6 +48,7 @@
         PROCESSDEFID numeric(19,0) not null,
         PROCESSDEFNAME varchar(100) null,
         PROCESSCHNAME varchar(100) null,
+        TENANTID numeric(19,0),
         DESCRIPTION varchar(500) null,
         CURRENTSTATE int null,
         VERSIONSIGN varchar(20) null,
