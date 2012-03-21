@@ -45,8 +45,8 @@ public class ProcessDefineRepositoryImpl extends JdbcDaoSupport implements IProc
 
 	//--------------------------------------------SQL Start--------------------------------------------------------
 	private static String inertProcessDefineSQL = "insert into WF_PROCESSDEFINE (processDefId, " +
-			"processDefName, processCHName, description, currentState, versionSign, processDefContent, " +
-			"createTime, creator, limitTime) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			"processDefName, processCHName, TENANTID, description, currentState, versionSign, processDefContent, " +
+			"createTime, creator, limitTime) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	private static String updateProcessDefineSQL = "update WF_PROCESSDEFINE set processDefName=?, processCHName=?, " +
 			"description=?, versionSign=?, processDefContent=?, updateTime=?, updator=? where processDefId=?";
@@ -56,22 +56,25 @@ public class ProcessDefineRepositoryImpl extends JdbcDaoSupport implements IProc
 	private static String findProcessDefineSQL = "select * from WF_PROCESSDEFINE where processDefId = ?";
 	
 	private static String findPublishProcessDefineSQL = "select * from WF_PROCESSDEFINE " +
-			"where processDefName = ? and currentState = 3";
+			"where processDefName = ? and currentState = 3 and tenantId = ?";
 	
 	private static String updateProcessDefineUnPublishStatusSQL = "update WF_PROCESSDEFINE " +
-			"set currentState = 1 where processDefName = ?";
+			"set currentState = 1 where processDefName = ? and tenantId = ?";
 	
 	private static String updateProcessDefinePublishStatusSQL = "update WF_PROCESSDEFINE " +
-			"set currentState = 3 where processDefId = ?";
+			"set currentState = 3 where processDefId = ? and tenantId = ?";
 	
 	private static String findProcessDefinesSQL = "select processDefId, processDefName, processCHName, " +
-			"currentState, versionSign  from WF_PROCESSDEFINE where processDefName = ?";
+			"currentState, versionSign  from WF_PROCESSDEFINE where processDefName = ? and tenantId = ?";
+	
+	private static String findTenantIdForProcess = "SELECT a.TenantId FROM wf_processdefine a, wf_processinst b " +
+			"WHERE a.PROCESSDEFID = b.PROCESSDEFID AND b.PROCESSINSTID = ?";
 	//--------------------------------------------SQL End--------------------------------------------------------
 	
 	public void inertProcessDefine(ProcessDefine processDefine) {
 		this.getJdbcTemplate().update(inertProcessDefineSQL, processDefine.getProcessDefId(), processDefine.getProcessDefName(), processDefine.getProcessCHName(),
-				processDefine.getDescription(), processDefine.getCurrentState(), processDefine.getVersionSign(), processDefine.getProcessDefContent(),
-				processDefine.getCreateTime(), processDefine.getCreator(), processDefine.getLimitTime());
+				processDefine.getTenantId(), processDefine.getDescription(), processDefine.getCurrentState(), processDefine.getVersionSign(), 
+				processDefine.getProcessDefContent(), processDefine.getCreateTime(), processDefine.getCreator(), processDefine.getLimitTime());
 	}
 	
 	public void updateProcessDefine(ProcessDefine processDefine) {
@@ -79,8 +82,8 @@ public class ProcessDefineRepositoryImpl extends JdbcDaoSupport implements IProc
 				processDefine.getDescription(), processDefine.getVersionSign(), processDefine.getProcessDefContent(),
 				processDefine.getUpdateTime(), processDefine.getUpdator(), processDefine.getProcessDefId());
 		
-		cache.evict("prodef-" + processDefine.getProcessDefId());
-		cache.evict("prodef-" + processDefine.getProcessDefName());
+		cache.evict("prodef-" + processDefine.getTenantId() + "-" + processDefine.getProcessDefId());
+		cache.evict("prodef-" + processDefine.getTenantId() + "-" + processDefine.getProcessDefName());
 	}
 	
 	public void deleteProcessDefine(long processDefId) {
@@ -88,8 +91,8 @@ public class ProcessDefineRepositoryImpl extends JdbcDaoSupport implements IProc
 		
 		ProcessDefine processDefine = getCacheValue("prodef-" + processDefId);
 		if(processDefine != null) {
-			cache.evict("prodef-" + processDefine.getProcessDefId());
-			cache.evict("prodef-" + processDefine.getProcessDefName());
+			cache.evict("prodef-" + processDefine.getTenantId() + "-" + processDefine.getProcessDefId());
+			cache.evict("prodef-" + processDefine.getTenantId() + "-" + processDefine.getProcessDefName());
 		}
 	}
 	
@@ -100,41 +103,47 @@ public class ProcessDefineRepositoryImpl extends JdbcDaoSupport implements IProc
 			
 			ProcessElement processElement = ProcessDefineParser.createProcessXml(processDefine.getProcessDefContent());
 			processDefine.setProcessElement(processElement);
-			cache.put("prodef-" + processDefine.getProcessDefId(), processDefine);
+			cache.put("prodef-" + processDefine.getTenantId() + "-" + processDefine.getProcessDefId(), processDefine);
 		}
 		return processDefine;
 	}
 	
-	public ProcessDefine findPublishProcessDefine(String processDefName) {
-		ProcessDefine processDefine = getCacheValue("prodef-" + processDefName);
+	public ProcessDefine findPublishProcessDefine(long tenantId, String processDefName) {
+		ProcessDefine processDefine = getCacheValue("prodef-" + tenantId + "-" + processDefName);
 		if(processDefine == null) {
-			processDefine = this.getJdbcTemplate().queryForObject(findPublishProcessDefineSQL, new ProcessDefineRowMapper(), processDefName);
+			processDefine = this.getJdbcTemplate().queryForObject(findPublishProcessDefineSQL, new ProcessDefineRowMapper(), processDefName, tenantId);
 			
 			ProcessElement processXml = ProcessDefineParser.createProcessXml(processDefine.getProcessDefContent());
 			processDefine.setProcessElement(processXml);
-			cache.put("prodef-" + processDefine.getProcessDefId(), processDefine);
-			cache.put("prodef-" + processDefine.getProcessDefName(), processDefine);
+			cache.put("prodef-" + tenantId + "-" + processDefine.getProcessDefId(), processDefine);
+			cache.put("prodef-" + tenantId + "-" + processDefine.getProcessDefName(), processDefine);
 		}
 		return processDefine;
 	}
 	
-	public void updateProcessDefineUnPublishStatus(String processDefName) {
-		this.getJdbcTemplate().update(updateProcessDefineUnPublishStatusSQL, processDefName);
+	public void updateProcessDefineUnPublishStatus(long tenantId, String processDefName) {
+		this.getJdbcTemplate().update(updateProcessDefineUnPublishStatusSQL, processDefName, tenantId);
 		
 		ProcessDefine processDefine = getCacheValue("prodef-" + processDefName);
 		if(processDefine != null) {
-			cache.evict("prodef-" + processDefine.getProcessDefName());
+			cache.evict("prodef-" + processDefine.getTenantId() + "-" + processDefine.getProcessDefName());
 		}
 	}
 	
-	public void updateProcessDefinePublishStatus(long processDefId) {
-		this.getJdbcTemplate().update(updateProcessDefinePublishStatusSQL, processDefId);
+	public void updateProcessDefinePublishStatus(long tenantId, long processDefId) {
+		this.getJdbcTemplate().update(updateProcessDefinePublishStatusSQL, processDefId, tenantId);
 		
 		ProcessDefine processDefine = findProcessDefine(processDefId);
 		if(processDefine != null) {
-			cache.evict("prodef-" + processDefine.getProcessDefName());
+			cache.evict("prodef-" + processDefine.getTenantId() + "-" + processDefine.getProcessDefName());
 		}
 	}
+	
+	public long findTenantIdForProcess(long processInstId) {
+		return this.getJdbcTemplate().queryForLong(findTenantIdForProcess, processInstId);
+	}
+	
+	//-------------------------------------------------------------------------------------------
 	
 	private ProcessDefine getCacheValue(String key) {
 		ValueWrapper wrapper = cache.get(key);
@@ -144,7 +153,7 @@ public class ProcessDefineRepositoryImpl extends JdbcDaoSupport implements IProc
 			return null;
 	}
 	
-	public List<ProcessDefine> findProcessDefines(String processDefName) {
+	public List<ProcessDefine> findProcessDefines(long tenantId, String processDefName) {
 		return this.getJdbcTemplate().query(findProcessDefinesSQL, new RowMapper<ProcessDefine>(){
 
 			@Override
@@ -159,7 +168,7 @@ public class ProcessDefineRepositoryImpl extends JdbcDaoSupport implements IProc
 				return processDefine;
 			}
 			
-		}, processDefName);
+		}, processDefName, tenantId);
 	}
 	
 	private static class ProcessDefineRowMapper implements RowMapper<ProcessDefine> {

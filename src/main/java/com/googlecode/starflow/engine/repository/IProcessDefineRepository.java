@@ -62,21 +62,21 @@ public interface IProcessDefineRepository {
 	 * @param processDefName Name
 	 * @return
 	 */
-	public ProcessDefine findPublishProcessDefine(String processDefName);
+	public ProcessDefine findPublishProcessDefine(long tenantId, String processDefName);
 	
 	/**
 	 * 更新流程定义为未发布状态
 	 * 
 	 * @param processDefName
 	 */
-	public void updateProcessDefineUnPublishStatus(String processDefName);
+	public void updateProcessDefineUnPublishStatus(long tenantId, String processDefName);
 	
 	/**
 	 * 更新流程定义为发布状态
 	 * 
 	 * @param processDefName
 	 */
-	public void updateProcessDefinePublishStatus(long processDefId);
+	public void updateProcessDefinePublishStatus(long tenantId, long processDefId);
 	
 	/**
 	 * 查找状态流程定义数据
@@ -84,5 +84,13 @@ public interface IProcessDefineRepository {
 	 * @param processDefName
 	 * @return
 	 */
-	public List<ProcessDefine> findProcessDefines(String processDefName);
+	public List<ProcessDefine> findProcessDefines(long tenantId, String processDefName);
+	
+	/**
+	 * 流程实例ID查找流程属于租户ID
+	 * 
+	 * @param processInstId
+	 * @return
+	 */
+	public long findTenantIdForProcess(long processInstId);
 }

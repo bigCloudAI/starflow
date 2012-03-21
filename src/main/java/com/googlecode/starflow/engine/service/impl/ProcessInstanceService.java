@@ -64,11 +64,15 @@ public class ProcessInstanceService implements IProcessInstanceService {
 		this.transactionTemplate = processEngine.getTransactionTemplate();
 	}
 	
+	public ProcessInstance createProcess(String processDefName, String userId) {
+		return this.createProcess(0l, processDefName, userId);
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
-	public ProcessInstance createProcess(String processDefName, String userId) {
-		return innercreateProcess(processDefName, userId, -1, -1, -1, Constants.FLOW_ISNOT_SUBFLOW);
+	public ProcessInstance createProcess(long tenantId, String processDefName, String userId) {
+		return innercreateProcess(tenantId, processDefName, userId, -1, -1, -1, Constants.FLOW_ISNOT_SUBFLOW);
 	}
 	
 	/**
@@ -76,18 +80,19 @@ public class ProcessInstanceService implements IProcessInstanceService {
 	 */
 	public ProcessInstance innerCreateSubProcess(String processDefName, String userId, final long mainProcInstId,
 			long parentProcInstId, long activityInstId) {
-		return innercreateProcess(processDefName, userId, mainProcInstId, parentProcInstId, activityInstId, Constants.FLOW_IS_SUBFLOW);
+		long tenantId = this.procDefRep.findTenantIdForProcess(mainProcInstId);
+		return innercreateProcess(tenantId, processDefName, userId, mainProcInstId, parentProcInstId, activityInstId, Constants.FLOW_IS_SUBFLOW);
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	private ProcessInstance innercreateProcess(String processDefName, final String userId, final long mainProcInstId,
+	private ProcessInstance innercreateProcess(long tenantId, String processDefName, final String userId, final long mainProcInstId,
 			final long parentProcInstId, final long activityInstId, final String subFlow) {
 		if(!StringUtils.hasText(userId))
 			throw new IllegalArgumentException("创建流程时，必须指定用户 ID");
 		
-		final ProcessDefine processDefine = procDefRep.findPublishProcessDefine(processDefName);
+		final ProcessDefine processDefine = procDefRep.findPublishProcessDefine(tenantId, processDefName);
 		if(processDefine == null)
 			throw new ProcessDefineNotFoundException("没有创建流程，或者流程定义版本没有发布");
 		
@@ -147,11 +152,15 @@ public class ProcessInstanceService implements IProcessInstanceService {
 		});
 	}
 	
+	public ProcessInstance createAndStartProcess(String processDefName, String userId) {
+		return this.createAndStartProcess(0, processDefName, userId);
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
-	public ProcessInstance createAndStartProcess(String processDefName, String userId) {
-		final ProcessInstance processInstance = this.createProcess(processDefName, userId);
+	public ProcessInstance createAndStartProcess(long tenantId, String processDefName, String userId) {
+		final ProcessInstance processInstance = this.createProcess(tenantId, processDefName, userId);
 		
 		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 			@Override

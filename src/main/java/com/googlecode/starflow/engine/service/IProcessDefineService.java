@@ -61,12 +61,20 @@ public interface IProcessDefineService {
 	public List<ProcessDefine> findProcessDefines(String processDefName);
 	
 	/**
+	 * 查找流程定义数据
+	 * 
+	 * @param processDefName
+	 * @return
+	 */
+	public List<ProcessDefine> findProcessDefines(long tenantId, String processDefName);
+	
+	/**
 	 * 根据流程定义名称和版本号，判断是否唯一
 	 * 
 	 * @param processDefName
 	 * @param versionSign
 	 */
-	public Boolean isUniqueProcessDefine(String processDefName, String versionSign);
+	public Boolean isUniqueProcessDefine(long tenantId, String processDefName, String versionSign);
 	
 	/**
 	 * 部署流程定义
@@ -95,7 +103,7 @@ public interface IProcessDefineService {
 	 * @param processDefName
 	 * @param processDefId
 	 */
-	public void publishProcessDefine(String processDefName, long processDefId);
+	public void publishProcessDefine(long tenantId, String processDefName, long processDefId);
 	
 	/**
 	 * 获取流程扩展属性
