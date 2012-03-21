@@ -47,7 +47,7 @@ public class DefaultUniqueTableApp implements UniqueTableApp {
 	public DefaultUniqueTableApp(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 		
-		this.selectSQL = "SELECT code FROM WF_PRIMARYKEY WHERE name = ? ";
+		this.selectSQL = "SELECT code FROM WF_PRIMARYKEY WHERE name = ? FOR UPDATE";
 		this.updateSQL = "UPDATE WF_PRIMARYKEY SET code = code + ? WHERE name = ? ";
 		this.insertSQL = "INSERT INTO WF_PRIMARYKEY (code, name) VALUES (?, ?)";
 	}
