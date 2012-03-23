@@ -103,6 +103,15 @@ public interface IProcessDefineService {
 	 * @param processDefName
 	 * @param processDefId
 	 */
+	public void publishProcessDefine(String processDefName, long processDefId);
+	
+	/**
+	 * 发布流程定义
+	 * 
+	 * @param tenantId
+	 * @param processDefName
+	 * @param processDefId
+	 */
 	public void publishProcessDefine(long tenantId, String processDefName, long processDefId);
 	
 	/**

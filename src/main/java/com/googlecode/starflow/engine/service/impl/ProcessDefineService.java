@@ -185,8 +185,8 @@ public class ProcessDefineService implements IProcessDefineService {
 			
 			@Override
 			public void doInTransactionWithoutResult(TransactionStatus status) {
-				procDefRep.updateProcessDefineUnPublishStatus(0l, processDefName);
-				procDefRep.updateProcessDefinePublishStatus(0l, processDefId);
+				procDefRep.updateProcessDefineUnPublishStatus(0, processDefName);
+				procDefRep.updateProcessDefinePublishStatus(0, processDefId);
 			}
 		});
 	}
