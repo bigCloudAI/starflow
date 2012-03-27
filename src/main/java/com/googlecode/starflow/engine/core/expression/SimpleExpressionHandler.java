@@ -19,7 +19,6 @@ package com.googlecode.starflow.engine.core.expression;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.googlecode.starflow.engine.core.expression.aviator.AbstractExpressionHandler;
 import com.googlecode.starflow.engine.core.expression.xpath.XPathBuilder;
 import com.googlecode.starflow.engine.model.elements.TransitionElement;
 

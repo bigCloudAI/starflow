@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.googlecode.starflow.engine.core.expression.aviator;
+package com.googlecode.starflow.engine.core.expression;
 
 import java.util.Map;
 
@@ -25,8 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.googlecode.starflow.core.util.ScriptEngineHolder;
-import com.googlecode.starflow.engine.core.expression.IExpressionHandler;
-import com.googlecode.starflow.engine.core.expression.RuntimeExpressionException;
 import com.googlecode.starflow.engine.model.elements.TransitionElement;
 
 /**
