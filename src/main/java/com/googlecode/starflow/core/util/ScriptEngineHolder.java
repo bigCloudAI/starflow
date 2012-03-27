@@ -16,7 +16,7 @@ import com.googlecode.starflow.engine.ProcessEngine;
 abstract public class ScriptEngineHolder {
 	private final static ScriptEngineManager SCRIPT_ENGINE_MANAGER = new ScriptEngineManager();
 	
-	private static boolean isPresentAviator = false;
+	public static boolean isPresentAviator = false;
 	private static ScriptEngine engine = null;
 	
 	static{

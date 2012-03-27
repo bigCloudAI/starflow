@@ -19,6 +19,7 @@ package com.googlecode.starflow.engine.core.expression;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.googlecode.starflow.core.util.ScriptEngineHolder;
 import com.googlecode.starflow.engine.core.expression.xpath.XPathBuilder;
 import com.googlecode.starflow.engine.model.elements.TransitionElement;
 
@@ -50,8 +51,11 @@ public class SimpleExpressionHandler extends AbstractExpressionHandler {
 			leftValue = parserXPath(leftValue, conditions);
 		}
 		
-		String expression = "\"" + leftValue + "\" " + compType + " \"" + transition.getRightValue() +"\""; 
-		return expression;
+		//spring el需要在变量前添加#
+		if(ScriptEngineHolder.isPresentAviator)
+			return "\"" + leftValue + "\" " + compType + " \"" + transition.getRightValue() +"\""; 
+		else
+			return "#" + leftValue + " " + compType + " \"" + transition.getRightValue() +"\"";
 	}
 
 	/**
