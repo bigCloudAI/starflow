@@ -24,9 +24,8 @@ import com.googlecode.starflow.engine.model.ProcessInstance;
  * @version 1.0
  */
 public interface IProcessInstanceService {
-	
 	/**
-	 * 根据流程定义名称创建流程实例
+	 * 根据流程定义名称创建流程实例 
 	 * 
 	 * 同一个流程实例有多个版本，但只有一个版本处于发布状态
 	 * 
@@ -35,18 +34,6 @@ public interface IProcessInstanceService {
 	 * @return ProcessInstance
 	 */
 	public ProcessInstance createProcess(String processDefName, String userId);
-	
-	/**
-	 * 根据流程定义名称创建流程实例
-	 * 
-	 * 同一个流程实例有多个版本，但只有一个版本处于发布状态
-	 * 
-	 * @param tenantId 租户ID
-	 * @param processDefName 流程定义名称
-	 * @param userId 创建流程实例的用户ID
-	 * @return ProcessInstance
-	 */
-	public ProcessInstance createProcess(long tenantId, String processDefName, String userId);
 	
 	/**
 	 * 内部创建子流程使用
@@ -77,18 +64,6 @@ public interface IProcessInstanceService {
 	 * @return ProcessInstance
 	 */
 	public ProcessInstance createAndStartProcess(String processDefName, String userId);
-	
-	/**
-	 * 创建并启动流程实例ID
-	 * 
-	 * 同一个流程实例有多个版本，但只有一个版本处于发布状态
-	 * 
-	 * @param tenantId 租户ID
-	 * @param processDefName 流程定义名称
-	 * @param userId 创建流程实例的用户ID
-	 * @return ProcessInstance
-	 */
-	public ProcessInstance createAndStartProcess(long tenantId, String processDefName, String userId);
 	
 	/**
 	 * 终止流程实例，状态不可再回复运行，永远over！

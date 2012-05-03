@@ -10,7 +10,7 @@
     drop table wf_processinst;
 
     drop table wf_transctrl;
-
+ 
     drop table wf_workitem;
 
     create table wf_activityinst (
@@ -48,7 +48,6 @@
         PROCESSDEFID bigint not null,
         PROCESSDEFNAME varchar(100),
         PROCESSCHNAME varchar(100),
-        TENANTID bigint,
         DESCRIPTION varchar(500),
         CURRENTSTATE integer,
         VERSIONSIGN varchar(20),

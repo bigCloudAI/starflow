@@ -8,7 +8,7 @@
     drop table if exists wf_processdefine;
 
     drop table if exists wf_processinst;
-
+ 
     drop table if exists wf_transctrl;
 
     drop table if exists wf_workitem;
@@ -48,7 +48,6 @@
         PROCESSDEFID bigint not null,
         PROCESSDEFNAME varchar(100),
         PROCESSCHNAME varchar(100),
-        TENANTID bigint,
         DESCRIPTION longtext,
         CURRENTSTATE integer,
         VERSIONSIGN varchar(20),

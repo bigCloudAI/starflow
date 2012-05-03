@@ -8,7 +8,7 @@
     drop table wf_processdefine cascade constraints;
 
     drop table wf_processinst cascade constraints;
-
+ 
     drop table wf_transctrl cascade constraints;
 
     drop table wf_workitem cascade constraints;
@@ -48,7 +48,6 @@
         PROCESSDEFID number(19,0) not null,
         PROCESSDEFNAME varchar2(100),
         PROCESSCHNAME varchar2(100),
-        TENANTID number(19,0) not null,
         DESCRIPTION varchar2(500),
         CURRENTSTATE number(10,0),
         VERSIONSIGN varchar2(20),

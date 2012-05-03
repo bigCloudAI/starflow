@@ -6,7 +6,7 @@
     drop table wf_primarykey cascade;
 
     drop table wf_processdefine cascade;
-
+ 
     drop table wf_processinst cascade;
 
     drop table wf_transctrl cascade;
@@ -48,7 +48,6 @@
         PROCESSDEFID int8 not null,
         PROCESSDEFNAME varchar(100),
         PROCESSCHNAME varchar(100),
-        TENANTID int8,
         DESCRIPTION varchar(500),
         CURRENTSTATE int4,
         VERSIONSIGN varchar(20),

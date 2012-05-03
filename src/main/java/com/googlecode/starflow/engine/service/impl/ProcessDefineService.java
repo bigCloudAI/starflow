@@ -57,7 +57,7 @@ public class ProcessDefineService implements IProcessDefineService {
 	
 	private IProcessDefineRepository procDefRep;
 	private TransactionTemplate transactionTemplate;
-	
+	 
 
 	public ProcessDefineService(ProcessEngine processEngine) {
 		Assert.notNull(processEngine);
@@ -91,23 +91,15 @@ public class ProcessDefineService implements IProcessDefineService {
 	}
 	
 	public List<ProcessDefine> findProcessDefines(String processDefName) {
-		return procDefRep.findProcessDefines(0l, processDefName);
+		return procDefRep.findProcessDefines(processDefName);
 	}
 	
-	public List<ProcessDefine> findProcessDefines(long tenantId, String processDefName) {
-		return procDefRep.findProcessDefines(tenantId, processDefName);
-	}
-	
-	public Boolean isUniqueProcessDefine(String processDefName, String versionSign) {
-		return this.isUniqueProcessDefine(0l, processDefName, versionSign);
-	}
-	
-	public Boolean isUniqueProcessDefine(final long tenantId, final String processDefName, final String versionSign) {
+	public Boolean isUniqueProcessDefine(final String processDefName, final String versionSign) {
 		return transactionTemplate.execute(new TransactionCallback<Boolean>() {
 
 			@Override
 			public Boolean doInTransaction(TransactionStatus status) {
-				List<ProcessDefine> list = procDefRep.findProcessDefines(tenantId, processDefName);
+				List<ProcessDefine> list = procDefRep.findProcessDefines(processDefName);
 				for(ProcessDefine processDefine : list) {
 					if(processDefine.getVersionSign().equals(versionSign)) {
 						return false;
@@ -185,19 +177,8 @@ public class ProcessDefineService implements IProcessDefineService {
 			
 			@Override
 			public void doInTransactionWithoutResult(TransactionStatus status) {
-				procDefRep.updateProcessDefineUnPublishStatus(0, processDefName);
-				procDefRep.updateProcessDefinePublishStatus(0, processDefId);
-			}
-		});
-	}
-	
-	public void publishProcessDefine(final long tenantId, final String processDefName, final long processDefId) {
-		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-			
-			@Override
-			public void doInTransactionWithoutResult(TransactionStatus status) {
-				procDefRep.updateProcessDefineUnPublishStatus(tenantId, processDefName);
-				procDefRep.updateProcessDefinePublishStatus(tenantId, processDefId);
+				procDefRep.updateProcessDefineUnPublishStatus(processDefName);
+				procDefRep.updateProcessDefinePublishStatus(processDefId);
 			}
 		});
 	}

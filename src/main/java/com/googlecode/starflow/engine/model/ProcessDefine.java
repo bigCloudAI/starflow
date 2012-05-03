@@ -22,7 +22,7 @@ import java.util.Date;
 import com.googlecode.starflow.engine.model.elements.ProcessElement;
 
 /**
- * 
+ *  
  * @author libinsong1204@gmail.com
  * @version 1.0
  */
@@ -31,7 +31,6 @@ public class ProcessDefine implements Serializable {
 	private long processDefId;
 	private String processDefName;
 	private String processCHName;
-	private long tenantId = 0;
 	private String description;
 	private int currentState;
 	private long limitTime;
@@ -61,12 +60,6 @@ public class ProcessDefine implements Serializable {
 	}
 	public void setProcessCHName(String processCHName) {
 		this.processCHName = processCHName;
-	}
-	public long getTenantId() {
-		return tenantId;
-	}
-	public void setTenantId(long tenantId) {
-		this.tenantId = tenantId;
 	}
 	public String getDescription() {
 		return description;

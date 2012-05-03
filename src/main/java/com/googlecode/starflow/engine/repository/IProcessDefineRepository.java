@@ -28,7 +28,7 @@ import com.googlecode.starflow.engine.model.ProcessDefine;
 public interface IProcessDefineRepository {
 	
 	/**
-	 * 保存流程定义数据
+	 * 保存流程定义数据 
 	 * 
 	 * @param processDefine
 	 */
@@ -62,21 +62,21 @@ public interface IProcessDefineRepository {
 	 * @param processDefName Name
 	 * @return
 	 */
-	public ProcessDefine findPublishProcessDefine(long tenantId, String processDefName);
+	public ProcessDefine findPublishProcessDefine(String processDefName);
 	
 	/**
 	 * 更新流程定义为未发布状态
 	 * 
 	 * @param processDefName
 	 */
-	public void updateProcessDefineUnPublishStatus(long tenantId, String processDefName);
+	public void updateProcessDefineUnPublishStatus(String processDefName);
 	
 	/**
 	 * 更新流程定义为发布状态
 	 * 
 	 * @param processDefName
 	 */
-	public void updateProcessDefinePublishStatus(long tenantId, long processDefId);
+	public void updateProcessDefinePublishStatus(long processDefId);
 	
 	/**
 	 * 查找状态流程定义数据
@@ -84,13 +84,5 @@ public interface IProcessDefineRepository {
 	 * @param processDefName
 	 * @return
 	 */
-	public List<ProcessDefine> findProcessDefines(long tenantId, String processDefName);
-	
-	/**
-	 * 流程实例ID查找流程属于租户ID
-	 * 
-	 * @param processInstId
-	 * @return
-	 */
-	public long findTenantIdForProcess(long processInstId);
+	public List<ProcessDefine> findProcessDefines(String processDefName);
 }
